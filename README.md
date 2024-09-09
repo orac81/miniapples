@@ -3,4 +3,6 @@ Miniapples is a collection of very wide ranging interesting/useful open source m
 
 I present them as a collection of zip files, each containing source code, executable and text file description.
 
+Click on the txt file to read the description, click on the zip to download.
+
 Enjoy!
