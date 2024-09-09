@@ -16,7 +16,6 @@ Its nothing special, but I liked my early PETSCII art of cherries, owl, bell..
 I am sure someone can improve on it!
 
 =============================================================================
-FRUIT HOOT is Written by and Copyright A.Millett 1980-2024.
 The source code is released as free software under the GNU GPL3 licence,
 see GNU website:      www.gnu.org/licenses/gpl-3.0.html 
 =============================================================================
