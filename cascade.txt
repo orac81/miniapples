@@ -1,0 +1,23 @@
+  CASCADE
+ ---------
+   
+CASCADE is a BASIC game for any 40 column CBM computer. (C64, C16, PETs..)
+
+"cascade2bas.prg"      - Basic version for any cbm, load with ",8" not ",8,1" 
+                         (its is located at $0401 so PETs can load it.)
+"cascade2c64.prg"      - Compiled c64 version.
+"cascade2c16.prg"      - c16/+4 version. (Basic)
+"cascade11v20.prg"     - Vic20 version (unexpanded)
+
+To  move, type the letter (a-z) you wish to remove and the balls will cascade
+down the gaps left. on reaching the bottom they will add to your score. 
+The computer trys to do the same. The game ends when there are no balls left.
+A simple game, but its a neat concept.
+
+The PET version of CASCADE was first published in CCI Nov 1982 magazine.
+
+=============================================================================
+CASCADE is Written by and Copyright A.Millett 1980-2024.
+The source code is released as free software under the GNU GPL3 licence,
+see GNU website:      www.gnu.org/licenses/gpl-3.0.html 
+=============================================================================
