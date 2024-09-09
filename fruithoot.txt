@@ -1,0 +1,22 @@
+  FRUIT HOOT
+ ------------
+
+FRUIT HOOT is a BASIC fruit machine game for any 40 column CBM computer. (C64, C16, PETs..)
+
+"fruit3bas.prg"      - Basic version for any cbm, load with ",8" NOT ",8,1" 
+                         (it is located at $0401 so PETs can load it.)
+"fruit3c64.prg"      - Compiled c64 version. (BASIC64)
+"fruit3c16.prg"      - c16/+4 version. (Basic, located to load ",8,1" ok.)
+
+Fruit-hoot is a simple fruit machine game for any 40 column CBM machine.
+You start with $100, each go costs $1. During play press space to spin, 
+x to quit, n for a new game.
+
+Its nothing special, but I liked my early PETSCII art of cherries, owl, bell..
+I am sure someone can improve on it!
+
+=============================================================================
+FRUIT HOOT is Written by and Copyright A.Millett 1980-2024.
+The source code is released as free software under the GNU GPL3 licence,
+see GNU website:      www.gnu.org/licenses/gpl-3.0.html 
+=============================================================================
