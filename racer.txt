@@ -1,0 +1,69 @@
+          RACER 
+         -------
+
+ Copyright A.Millett 1993-2024. (github.com/orac81)
+     
+ Released as free/open software under GNU GPL3 license.  
+      See: www.gnu.org/licenses/gpl-3.0.html 
+
+
+Below is the original 90's text for this shareware game. 
+(for modern technical notes see end of this text..)
+
+  Welcome to RACER - an excellent car-racing game with smooth
+scrolling graphics. Steer your car along the road, using the 4
+and 6 keys on the keypad, or the cursor left/right keys. Hit the
+CTRL key to Accelerate - when released, you drop back again.
+Try to avoid on coming CARS, MINES (white), and OIL slicks, but
+try to collect yellow GOLD BARS for points. When you hit an
+on-coming car, mine, or run off the road, the game is over - when
+you hit OIL, you skid. Try to collect green BONUS ARROWS, for
+points, and a fast 'GOLD-RUN', but avoid red POISON PILLS, which
+narrow the road and give you a fast 'MINE-RUN'!
+During the GOLD-RUN, you do not have to face other cars, or mines.
+You can select a different speed by hitting the F1 key on the title
+screen.
+Hit SPACE to pause during play, or ESC to exit.
+Due to the demands of hardware scrolling, this game works best on
+a fast PC - a 486 or better is recommended. If you have a slowish
+computer, you can hit TAB during play to disable the score-display
+- this will speed things up a bit.
+This game will run under CGA/EGA, for really slow computers, although
+the graphics are not as good or smooth in these modes.
+If you run it under Windows, the animation may be jerky, because
+of Windows multi-tasking. For best results, run under DOS.
+
+
+   Technical notes and compiling for modern PCs
+  ----------------------------------------------
+
+  RACER is a vintage shareware MSDOS car racing game from the 1990s. 
+It uses VGA MODE-X graphics mode to achieve hardware assisted smooth scrolling.
+I implemented a simple form of sprites for the cars in this game, and it
+shows some of the hardware tricks and hacks programmers from this era used.
+
+Note that not all VGA cards from the era support MODE-X, however
+for more modern machines, emulators like DOSBOX seem to work ok.
+(but set the DOSBOX speed to max)
+
+You will find C the source code supplied in the zip archive,
+to compile you will need Turbo C 2.0 or 3.0. 
+It was released by Borland as a free download. 
+(Try the links at the end of the Turbo-C wikipedia page)
+
+A batch file TCMAKE.BAT is included, under MSDOS (or DOSBOX) compile with:
+
+tcmake d:\path-to-turbo-c racer -ms -Z
+
+Obviously put in the correct path for Turbo C for your PC.
+
+RACER is a re-write of a VIC-20 program of mine, which was published in 
+Commodore Computing International in Nov 1982.
+(www.commodore.bombjack.org/commodore/magazines/commodore-computing-international/cci.htm)
+
+I hope you enjoy playing with RACER!
+
+-----------------------------------------------------------------------------
+(Released as free/open software under GNU GPL3 license. See: www.gnu.org/licenses/gpl-3.0.html)
+
+For updates and more programs see:     www.github.com/orac81
