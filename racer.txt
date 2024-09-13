@@ -1,7 +1,5 @@
           RACER 
          -------
-
- Copyright A.Millett 1993-2024. (github.com/orac81)
      
  Released as free/open software under GNU GPL3 license.  
       See: www.gnu.org/licenses/gpl-3.0.html 
