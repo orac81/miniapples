@@ -1,0 +1,99 @@
+         CASCADE 
+        ---------
+
+ Copyright A.Millett 1993-2024. (github.com/orac81)
+     
+ Released as free/open software under GNU GPL3 license.  
+      See: www.gnu.org/licenses/gpl-3.0.html 
+
+Below is the original 90's instruction text for this shareware game. 
+(for modern technical/compiling notes see end of this text..)
+
+
+     PLAYING INSTRUCTIONS
+    ----------------------
+  
+   Like all the best strategy games, CASCADE is easy to learn and
+ yet tough to actually master. On playing the game you are presented
+ with a maze of letters, scattered with balls and other objects.
+ Each player (you v Computer) takes turns to remove a letter, and
+ the balls cascade down the gaps left. On reaching the bottom, they
+ will enter your hopper and add a value to your score. This value is
+ normally 1, but is changed if a ball hits a NEGATOR or DOUBLER in
+ its travels. NEGATORS and DOUBLERS act as TOGGLES - ie. hitting a
+ DOUBLER once turns the mode on, hit it again and its switched off.
+ Hitting a BONUS is normally worth 4 points, although this becomes
+ -4 points if NEGATE mode is on, or double that if DOUBLE mode is on.
+ If you hit a flask of GELIGNITE you will clear a path adjacent to
+ that square. When you hit a REGENERATOR, part of the maze is
+ regenerated, and some extra balls are dropped in at the top.
+ 
+  Notes/Hints: Since point scores can be negative, each player
+starts with 100 points. The LOWEST balls in the maze are dropped
+first - remember this when trying to hit targets. When a ball has
+an equal choice of two routes down (left or right), a random choice
+is made.
+
+  To make moves during play, simply select the letter you want to
+remove by typing LOWERCASE a..z, or move the mouse to the letter and
+click the left button. Other Commands:
+
+  F1 - Highlight letter - show positions of selected letter.
+  F2 - Computer takes your go.  
+  F3 - Auto play - Hit ESC to end.
+  F4 - Change IQ level.
+  F5 - Toggle Two-player mode on/off. 
+  F6 - Enter EDIT MODE - Move cursor & type a..z, 0..9, F1..F4 keys
+       to place objects in maze. Hit RETURN to get back to game.
+  F7 - Load a maze off disk.
+  F8 - Save current maze to disk.
+
+I hope you enjoy playing CASCADE!
+
+-----------------------------------------------------------------------------
+
+   Technical notes and compiling for modern PCs
+  ----------------------------------------------
+
+  CASCADE is a classic strategy game for MSDOS from the 1990s. 
+It can run on nearly any classic PC, from XT/8086/CGA up to Pentiums with 
+VGA graphics. It uses some simple VGA hardware assisted scrolling effects.
+The code shows some of the hardware tricks and hacks programmers from this 
+era used.
+
+For most users on modern PCs, I very strongly suggest using an emulator 
+like DOSBOX for MSDOS programs like this, it is much "safer" than running 
+under MSDOS directly.
+The program isnt very demanding in terms of processor speed.
+
+You will find C the source code supplied in the zip archive,
+to compile you will need Turbo C 2.0 (or 3.0.)
+It was released by Borland as a free download. 
+(Try the links at the end of the Turbo-C wikipedia page)
+
+A batch file TCMAKE.BAT is included, under MSDOS (or DOSBOX) compile with:
+
+tcmake d:\progs\tc2 cascade -ms -Z
+
+Obviously change the correct path "d:\progs\tc2" for Turbo C for your PC.
+Commands for paths for LIB and INC might need adding for TC3 or other Borland
+compilers. 
+Its should be possible to adapt the code for Microsoft C, Watcom C, 
+Pacific C, or recent GNU 16 bit compiler conversions, although some work
+will probably need doing on Turbo-C syntax for things like BIOS calls, etc.
+
+CASCADE is a re-write of a PET program of mine, which was published in 
+Commodore Computing International in Nov 1982.
+(www.commodore.bombjack.org/commodore/magazines/commodore-computing-international/cci.htm)
+
+-----------------------------------------------------------------------------
+Released as free/open software under GNU GPL3 license. 
+  See: www.gnu.org/licenses/gpl-3.0.html
+
+This program, and its source code, is provided for free "as-is". 
+The author take no responsibility or liability its subsequent use or mis-use.
+The user uses it entirely at his or her own risk. 
+
+For updates and more programs see:     www.github.com/orac81
+-----------------------------------------------------------------------------
+
