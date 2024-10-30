@@ -1,0 +1,67 @@
+   CONNEX (ZEN)
+  --------------
+
+CONNEX is a version of the well known "4-in-a-line" game (Connect-4),
+for any Commodore computer (C64, C16, PET, VIC, etc).
+
+Contents of zip file:
+
+ "connex8bas.prg"       - Basic source version to run on any Commodore.
+     NOTE: load with ",8" not ",8,1" (its located at $0401 so PETs can load.)
+ "connex8c64.prg"       - Compiled c64 version.
+ "connex8c16.prg"       - Compiled c16/+4 version. 
+ "connex8c16.prg"       - Compiled c16/+4 version. 
+ "connex8vic8k.prg"     - Compiled Vic20 8k+ version.
+ "connex-zen-vic5k.prg" - Original Basic Vic20 1982 version. (named ZEN)
+ "connexg7ansi.txt"     - Generic portable ANSI/MS BASIC text version.
+    (Should run on any old computer - BBC, Apple, PC, etc)
+ 
+The game is quite simple. Two players (White and Black) takes turns 
+to drop a piece down a column on a 7x6 board. The first player that makes 
+4 in a line horizontally, vertically or diagonally wins. 
+
+When you first run CONNEX, you can type "X" to change the board width 
+(from 4 to 10 columns), or "C" to change screen colour. 
+Then select "1" to play against the computer, or "2" to play another human. 
+
+During play, use these keys:
+
+ 1-9 - Play the column you want. (0 for column 10)
+ G   - Make the computer take your go. 
+ A   - Make the computer auto-play.
+ I   - Change the IQ play level.
+ Q   - Quit game.
+
+
+CONNEX started life as a PET program in 1980, then was ported to the VIC20 in
+1982, and published. 
+
+The "connex-zen-vic5k.prg" VIC20 version of CONNEX was first published in 
+Personal Computer World Magazine, Jan 1983. 
+
+This original VIC version was very widely copied to software libraries around 
+the world, and was re-published (unknown to me!) by Artic software, and 
+many others.
+
+CONNEX only uses a simple 1 ply search, but the evaluation is suprisingly 
+effective. It assigns an evaluation in each direction based on how many
+pieces in a row a move makes (or blocks), and whether the ends are "open".
+The IQ=2 mode then subtracts the same evaluation divided by 4 for the square 
+above the played piece, since playing a position enables access to that 
+square for your opponent. This simple idea is suprisingly effective for
+a BASIC program that cannot really otherwise do deep searches. The ec()
+array adds a center bias - central moves are best.
+I resisted the idea to put hires GFX, and left it as a "PETSCII" program.
+(Note that the older versions do not have all the commands listed above.)
+
+I have a more modern C version of CONNEX which will do deep searches on PCs, 
+to be released later.
+
+Anyway I hope someone enjoys this little bit of BASIC history!
+
+=============================================================================
+CASCADE is Written by and Copyright A.Millett 1980-2024.
+The source code is released as free software under the GNU GPL3 licence,
+see GNU website:      www.gnu.org/licenses/gpl-3.0.html 
+=============================================================================
+  
