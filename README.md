@@ -22,6 +22,8 @@ PC DOS version:
 Commodore C64, Vic20, Plus4, PET version:
 <https://github.com/orac81/miniapples/raw/refs/heads/main/cascade2.zip>
 
+The PET version of CASCADE was first published in CCI Nov 1982 magazine.
+
 
 ## RACER
 
