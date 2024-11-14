@@ -7,7 +7,8 @@ Click on the txt file to read the description, click on the zip to download.
 
 ## CASCADE
 
-<img src="https://raw.githubusercontent.com/orac81/miniapples/refs/heads/main/pc-cascade-screen.png>
+<img src="https://github.com/orac81/miniapples/blob/main/pc-cascade-screen.png>
+
 
 To  move, type the letter (a-z) you wish to remove and the balls will cascade
 down the gaps left. On reaching the bottom they will add to your score. 
