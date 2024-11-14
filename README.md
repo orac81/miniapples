@@ -25,7 +25,7 @@ Commodore C64, Vic20, Plus4, PET version:
 
 
 
-## RACER
+## RACER (1982)
 
 <img src ="https://github.com/orac81/miniapples/blob/main/racer-screen1.png">
 
@@ -46,3 +46,9 @@ screen.
 PC DOS version:
 <https://github.com/orac81/miniapples/raw/refs/heads/main/racer20.zip>
 
+## CONNEX (1982)
+
+<img src ="https://github.com/orac81/miniapples/blob/main/connex-c16-1.png">
+
+CONNEX is a version of the well known "4-in-a-line" game (Connect-4),
+for any Commodore computer (C64, C16, PET, VIC, etc).
