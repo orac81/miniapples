@@ -63,3 +63,15 @@ Personal Computer World Magazine, Jan 1983.
 Commodore C64, Vic20, Plus4, PET version:
 <https://github.com/orac81/miniapples/raw/refs/heads/main/connex8.zip>
 
+
+## FRUIT HOOT
+
+<img src ="https://github.com/orac81/miniapples/blob/main/fruit1.png">
+
+Fruit hoot is a simple fruit machine for the Commodore, a bit of Petscii art.
+
+Commodore C64, Vic20, Plus4, PET version:
+<https://github.com/orac81/miniapples/raw/refs/heads/main/fruit-hoot3.zip>
+
+
+
