@@ -1,11 +1,12 @@
-## Miniapples
+# MINIAPPLES
+
 Miniapples is a collection of very wide ranging interesting/useful open source mini-applets (games, utilities, applications) that are too small to justify their own project.
 
 I present them as a collection of zip files, each containing source code, executable and text file description.
 
 Click on the txt file to read the description, click on the zip to download.
 
-### CASCADE
+## CASCADE
 
 <img src="https://github.com/orac81/miniapples/blob/main/pc-cascade-screen.png">
 
@@ -22,7 +23,7 @@ Commodore C64, Vic20, Plus4, PET version:
 <https://github.com/orac81/miniapples/raw/refs/heads/main/cascade2.zip>
 
 
-### RACER
+## RACER
 
 <img src ="https://github.com/orac81/miniapples/blob/main/racer-screen1.png">
 
@@ -39,4 +40,7 @@ narrow the road and give you a fast 'MINE-RUN'!
 During the GOLD-RUN, you do not have to face other cars, or mines.
 You can select a different speed by hitting the F1 key on the title
 screen.
+
+PC DOS version:
+<https://github.com/orac81/miniapples/raw/refs/heads/main/racer20.zip>
 
