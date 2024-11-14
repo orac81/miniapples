@@ -46,9 +46,20 @@ screen.
 PC DOS version:
 <https://github.com/orac81/miniapples/raw/refs/heads/main/racer20.zip>
 
+
 ## CONNEX (1982)
 
 <img src ="https://github.com/orac81/miniapples/blob/main/connex-c16-1.png">
 
 CONNEX is a version of the well known "4-in-a-line" game (Connect-4),
 for any Commodore computer (C64, C16, PET, VIC, etc).
+The game is quite simple. Two players (White and Black) takes turns 
+to drop a piece down a column on a 7x6 board. The first player that makes 
+4 in a line horizontally, vertically or diagonally wins. 
+
+The "connex-zen-vic5k.prg" VIC20 version of CONNEX was first published in 
+Personal Computer World Magazine, Jan 1983. 
+
+Commodore C64, Vic20, Plus4, PET version:
+<https://github.com/orac81/miniapples/raw/refs/heads/main/connex8.zip>
+
