@@ -5,7 +5,7 @@ I present them as a collection of zip files, each containing source code, execut
 
 Click on the txt file to read the description, click on the zip to download.
 
-# CASCADE
+### CASCADE
 
 <img src="https://github.com/orac81/miniapples/blob/main/pc-cascade-screen.png">
 
@@ -20,4 +20,23 @@ PC DOS version:
 
 Commodore C64, Vic20, Plus4, PET version:
 <https://github.com/orac81/miniapples/raw/refs/heads/main/cascade2.zip>
+
+
+### RACER
+
+<img src ="https://github.com/orac81/miniapples/blob/main/racer-screen1.png">
+
+
+Steer your car along the road, using the 4
+and 6 keys on the keypad, or the cursor left/right keys. Hit the
+CTRL key to Accelerate - when released, you drop back again.
+Try to avoid on coming CARS, MINES (white), and OIL slicks, but
+try to collect yellow GOLD BARS for points. When you hit an
+on-coming car, mine, or run off the road, the game is over - when
+you hit OIL, you skid. Try to collect green BONUS ARROWS, for
+points, and a fast 'GOLD-RUN', but avoid red POISON PILLS, which
+narrow the road and give you a fast 'MINE-RUN'!
+During the GOLD-RUN, you do not have to face other cars, or mines.
+You can select a different speed by hitting the F1 key on the title
+screen.
 
