@@ -1,11 +1,11 @@
-# miniapples
+## Miniapples
 Miniapples is a collection of very wide ranging interesting/useful open source mini-applets (games, utilities, applications) that are too small to justify their own project.
 
 I present them as a collection of zip files, each containing source code, executable and text file description.
 
 Click on the txt file to read the description, click on the zip to download.
 
-## CASCADE
+# CASCADE
 
 <img src="https://github.com/orac81/miniapples/blob/main/pc-cascade-screen.png">
 
@@ -17,3 +17,7 @@ A simple game, but its a neat concept.
 
 PC DOS version:
 <https://github.com/orac81/miniapples/raw/refs/heads/main/pc-cascade20.zip>
+
+Commodore C64, Vic20, Plus4, PET version:
+<https://github.com/orac81/miniapples/raw/refs/heads/main/cascade2.zip>
+
