@@ -51,8 +51,10 @@ PC DOS version:
 <img src ="https://github.com/orac81/miniapples/blob/main/sconnex155screenshot.png">
 
 SCONNEX is a version of the famous 4-in-a-line game, written to work on almost any computer. It can compile to work as an SDL app (screen shot above) or as a C99 terminal program. The compiled executable is only 10-20k, yet it can search 20+ moves ahead in a few seconds on modern PCs.
-It uses the classic recursive AlphaBeta search algorithm, and is a useful example of its use. The board size can be changed from 4x4 upto 12x12, there is an edit voard function to setup positions, and a two player mode to use the program for human games. 
+It uses the classic recursive AlphaBeta search algorithm, and is a useful example of its use. The board size can be changed from 4x4 upto 12x12, there is an edit board function to setup positions, and a two player mode to use the program for human games. 
 For more program details see file  "sconnex.txt".
+<https://github.com/orac81/miniapples/raw/refs/heads/main/sconnex-latest.zip>
+
 
 ## CONNEX (1982)
 
