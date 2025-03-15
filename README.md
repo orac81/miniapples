@@ -50,17 +50,18 @@ PC DOS version:
 
 <img src ="https://github.com/orac81/miniapples/blob/main/sconnex155screenshot.png">
 
-SCONNEX is a version of the famous 4-in-a-line game, written to work on almost any computer. It can compile to work as an SDL app (screen shot above) or as a C99 terminal program. The compiled executable is only 10-20k, yet it can search 20+ moves ahead in a few seconds on modern PCs.
-It uses the classic recursive AlphaBeta search algorithm, and is a useful example of its use. The board size can be changed from 4x4 upto 12x12, there is an edit board function to setup positions, and a two player mode to use the program for human games. 
+SCONNEX is a version of the famous 4-in-a-line game, written to work on almost any computer. It can compile to work as an SDL app (screen shot above) or as a C99 terminal program. The compiled executable is only 10-20k, yet it can search 20+ moves ahead midgame in a few seconds on modern PCs.
+ The board size can be changed from 4x4 upto 12x12, there is an edit board function to setup positions, and a two player mode to use the program for human games. 
+The code uses the classic recursive AlphaBeta search algorithm, and is a useful example of its use. It is still a "work in progress", yet it is good enough to be a challenging game. My first version of this game was published as a listing in jan  1983 PCW magazine (see below).
 For more program details see file  "sconnex.txt".
-<https://github.com/orac81/miniapples/raw/refs/heads/main/sconnex-latest.zip>
+Download: <https://github.com/orac81/miniapples/raw/refs/heads/main/sconnex-latest.zip>
 
 
 ## CONNEX (1982)
 
 <img src ="https://github.com/orac81/miniapples/blob/main/connex-c16-1.png">
 
-CONNEX is a version of the well known "4-in-a-line" game (Connect-4),
+CONNEX is a version of the well known "4-in-a-line" game (Connect-4, aka "Captain's Mistress", "Le passe temps", Edwardian parlor game "four ball".. ),
 for any Commodore computer (C64, C16, PET, VIC, etc).
 The game is quite simple. Two players (White and Black) takes turns 
 to drop a piece down a column on a 7x6 board. The first player that makes 
