@@ -57,7 +57,7 @@ For more program details see file  "sconnex.txt".
 Download: <https://github.com/orac81/miniapples/raw/refs/heads/main/sconnex-latest.zip>
 
 
-## CONNEX (1982)
+## CONNEX (1982) (CBM)
 
 <img src ="https://github.com/orac81/miniapples/blob/main/connex-c16-1.png">
 
