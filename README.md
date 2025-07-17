@@ -53,6 +53,7 @@ PC DOS version:
 SCONNEX is a version of the famous 4-in-a-line game, written to work on almost any computer. It can compile to work as an SDL app (screen shot above) or as a C99 terminal program. The compiled executable is only 10-20k, yet it can search 20+ moves ahead midgame in a few seconds on modern PCs.
  The board size can be changed from 4x4 upto 12x12, there is an edit board function to setup positions, and a two player mode to use the program for human games. 
 The code uses the classic recursive AlphaBeta search algorithm, and is a useful example of its use. It is still a "work in progress", yet it is good enough to be a challenging game. My first version of this game was published as a listing in jan  1983 PCW magazine (see below).
+New version also now builds for Commodore64, C16, VIC20, PET, ZX81, SPECTRUM.
 For more program details see file  "sconnex.txt".
 Download: <https://github.com/orac81/miniapples/raw/refs/heads/main/sconnex-latest.zip>
 
