@@ -72,17 +72,17 @@ The "connex-zen-vic5k.prg" VIC20 version of CONNEX was first published in
 Personal Computer World Magazine, Jan 1983. 
 
 Commodore C64, Vic20, Plus4, PET version:
-<https://github.com/orac81/miniapples/cbm/raw/refs/heads/main/connex8.zip>
+<https://github.com/orac81/miniapples/raw/refs/heads/main/cbm/connex8.zip>
 
 
 ## FRUIT HOOT
 
-<img src ="https://github.com/orac81/miniapples/cbm/blob/main/fruit1.png">
+<img src ="https://github.com/orac81/miniapples/blob/main/cbm/fruit1.png">
 
 Fruit hoot is a simple fruit machine for the Commodore, a bit of Petscii art.
 
 Commodore C64, Vic20, Plus4, PET version:
-<https://github.com/orac81/miniapples/cbm/raw/refs/heads/main/fruit-hoot3.zip>
+<https://github.com/orac81/miniapples/raw/refs/heads/main/cbm/fruit-hoot3.zip>
 
 
 
