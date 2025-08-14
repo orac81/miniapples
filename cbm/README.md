@@ -77,7 +77,7 @@ Commodore C64, Vic20, Plus4, PET version:
 
 ## FRUIT HOOT
 
-<img src ="https://github.com/orac81/miniapples/blob/main/cbm/fruit1.png">
+<img src ="https://github.com/orac81/miniapples/blob/main/cbm/fruit-screen1.png">
 
 Fruit hoot is a simple fruit machine for the Commodore, a bit of Petscii art.
 
