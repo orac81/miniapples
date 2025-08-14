@@ -1,0 +1,44 @@
+<!-- Javascript Landscape fly demo, by ORAC of TELLIMA. Freeware! -->
+<html>
+<center>
+<canvas id="idCanvas" width=600 height=400></canvas>
+<script>
+
+var tim = 0;		// Frame count/time
+var canvX = 600;	// Canvas width
+var canvY = 300;	// Canvas height
+var ctx;		// Context handle
+var stepx = 2;		// Pixel size
+var scrolly = 3;	// y scroll step
+var stretchx = 10;	// X-Stretch factor (zoom)
+
+function DrawFrame()
+{
+  var x,y,r,g,b;
+  var scaley,scaletime;
+  tim ++;
+	// Use drawImage to scroll down 2 pixels, expand image slightly, Interpolation-soften/blur..
+	//   ctx.drawImage (hImg, srcx, srcy, srcWidth, srcHeight, destx, desty, destWidth, destHeight);  
+  ctx.drawImage (idCanvas, stretchx,0, canvX-stretchx-stretchx,canvY-2, 0,scrolly, canvX,canvY);
+	// Use Alpha to dim old pix slightly
+  ctx.fillStyle = 'rgba(0,0,0,.02)';
+  ctx.fillRect (0,0,canvX,canvY);
+	// Draw new landscape using sine fn..
+  scaley = 12+Math.sin(tim/100)*4;	// Change scale over time (ie. plains/mountains..)
+  scaletime = tim * 176;
+  b=Math.floor(300-scaley*6);		// Change color over time
+  r=Math.floor(150+scaley*6);
+  ctx.fillStyle = 'rgb('+r+',170,'+b+')';
+  for (x = 0; x < canvX; x += stepx) {
+		// Use sine to plot undulating landscape pattern
+    y = Math.sin(Math.sin(x/23)*Math.sin(scaletime-x/43)+scaletime+x/63)*scaley + 70;
+    ctx.fillRect (x, y, stepx,scrolly);		// Draw a 2x2 pixel
+  }
+}
+
+	// Set up DrawFrame timer..
+ ctx = idCanvas.getContext('2d');
+ setInterval('DrawFrame()',30);
+
+</script>
+</body></html>

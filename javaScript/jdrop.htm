@@ -1,0 +1,860 @@
+<!-- JDROP.HTM : Javascript DropIt game, (C) ORAC of TELLIMA 2016. Freeware! -->
+
+<html>
+<canvas id="idCanvas" width=800 height=600></canvas>
+<pre id=idDisplay>
+<script>
+
+/* JDROP.JS : Simple javascript 4-in-a-line DropIt game. 
+
+ Hack JADDIX105 and DROP36X.C..
+-> JDROP100 (9.1.2016)
+ Import AlphaBeta & from DROPX36
+ Partly working ver..
+-> JDROP101 (10.1.2016)
+ Make single htm file..
+ Imp isGameOver(), side/win/lose/draw..
+ Imp cmd: n## to set new game board size.
+ (txt-only version)
+-> JDROP102 (10.1.2016)
+ Imp use_canvas version switch txt/canvas graphics..
+ Imp cv_main, cv_drawboard, cv_mouse etc..
+ Working graphical version, plays moves etc.
+-> JDROP103 (17.1.2016)
+ Imp key cmds: iq,new..
+ Imp setTimeout() for compute to redraw gfx after move.
+-> JDROP104 (18.1.2016)
+ Imp scaling graphics, board size +/-..
+ General tidy up..
+-> JDROP105 (19.1.2016)
+ Imp drawing using bitmap image "jball1.png".. ("v" toggles)
+ Works ok!
+-> JDROP106 (19.1.2016)
+ Imp window/canvas resizing..
+ Imp outStr - clean up analy/text display.
+ Imp 2 player mode.
+ Imp simple help.
+ Imp move time. (new,iq5,Move:4=-14,12805 nodes. 0.5sec.) 70 times slower than VC!
+-> JDROP107 (21.1.2016)
+ Keys dont work with PaleMoon, Imp document.onkeydown..
+-> JDROP108 (02.2.2020)
+*/
+
+var prog_name = "JDROP 1.08 (C) ORAC of TELLIMA 1981-2020. Freeware!";
+
+var use_canvas = 1;	/* Set to use canvas, Clr for simple text-only version */
+
+/*-------------------------------------------------
+   Engine code starts here..
+---------------------------------------------------*/
+
+  /* Shared varibles, set by frontend */
+
+var boardx = 7;		/* Board size */
+var boardy = 6;
+var iqlevel = 5;	/* Level of play */
+var inaline = 4;	/* # in a line wins/loses */
+
+var White = 1;		/* Board vals */
+var Black = 2;
+var Edge  = -4;
+
+  /* Private engine vars  */
+
+var bmult;		/* Multiplier */
+var pxpos,pypos; 	/* Player posn */
+var cxpos,cypos;	/* Computer posn */
+var xpos,ypos;		/* General pos */
+var xdir,ydir;
+var yoff;
+var ccolor;		/* White = 1, Black = 2 */
+var cpiece;
+
+var bxpos,bypos;	/* Best xy pos */
+var beval;		/* Best score */
+var nodecount = 0;
+var xeval;		/* Comp term eval score */
+var ceval;		/* Temp eval score */
+var nline;		/* No in line */
+var mline;
+var nclosed;		/* No of open ends */
+var debugflag = 0;
+
+var offseteval = 1;
+
+var gameover;		/* Game over? Set to win side, 3=draw. */
+
+var board = [256];	/* Playing area */
+
+var MAXX = 14;		/* Max board size */
+var MAXY = 14;
+
+	/* Look-up Eval scores nclosed 0,1,2 */
+var wineval = [ 0, 1,10,30,200, 2000, 0, 0,  0, 0, 5,10, 70, 2000, 0, 0,  0, 0, 0, 0,  0, 2000 ]; 
+
+/* var wineval [24] =
+	{ 0, 1,10,30,200, 2000, 0, 0,
+	  0, 0, 5,10, 70, 2000, 0, 0,
+	  0, 0, 0, 0,  0, 2000 };  
+*/
+
+  /* Set a board pos */
+function SetBoard (xpos,ypos,cpiece)
+{
+      board [xpos + ypos * bmult] = cpiece;
+}
+
+  /* Get a board pos */
+function GetBoard (xpos,ypos) 
+{
+     return board [xpos + ypos * bmult];
+}
+
+function newgame ()
+{
+	ccolor = White;
+	bmult = boardx + 2;
+	automode = 0;
+	gameover = 0;
+	for (xpos = 1; xpos <= boardx; xpos ++) {
+	  SetBoard ( xpos, 0, Edge);
+	  SetBoard ( xpos, boardy + 1, Edge);
+	  for (ypos = 1; ypos <= boardy; ypos ++) {
+	    SetBoard ( xpos, ypos, 0);
+	  }
+	}
+	for (ypos = 0; ypos <= boardy + 1; ypos ++) {
+	  SetBoard ( 0, ypos, Edge);
+	  SetBoard ( boardx + 1, ypos, Edge);
+	}
+}
+
+
+	/* Computer Move evaluation functions */
+
+  /* Scan line at (tpos,ccdir) & count how many in-a-row (nline,nclosed) for side (ccolor) */
+
+function scanline (tpos, icolor, ccdir)
+{
+	var tpiece;
+	nline = 1;
+	nclosed = 0;
+
+	/* Count (nline,nclosed) in dir (ccdir) : Scandir (+ccdir) */
+	if ( (tpiece = board [tpos + ccdir ]) == icolor) {
+	  nline ++;
+	  if ( (tpiece = board [tpos + ccdir + ccdir ]) == icolor) {
+	    nline ++;
+	    if ( (tpiece = board [tpos + ccdir + ccdir + ccdir ]) == icolor) {
+	      nline ++;
+	      if ( (tpiece = board [tpos + ccdir + ccdir + ccdir + ccdir ]) == icolor) {
+	        nline ++;
+	      } else if (tpiece) {
+	        nclosed ++;
+	      }
+	    } else if (tpiece) {
+	      nclosed ++;
+	    }
+	  } else if (tpiece) {
+	    nclosed ++;
+	  }
+	} else if (tpiece) {
+	  nclosed ++;
+	}
+
+	/* Count (nline,nclosed) in dir (-ccdir) : Scandir (-ccdir) */
+	if ( (tpiece = board [tpos - ccdir ]) == icolor) {
+	  nline ++;
+	  if ( (tpiece = board [tpos - ccdir - ccdir ]) == icolor) {
+	    nline ++;
+	    if ( (tpiece = board [tpos - ccdir - ccdir - ccdir ]) == icolor) {
+	      nline ++;
+	      if ( (tpiece = board [tpos - ccdir - ccdir - ccdir - ccdir ]) == icolor) {
+	        nline ++;
+	      } else if (tpiece) {
+	        nclosed ++;
+	      }
+	    } else if (tpiece) {
+	      nclosed ++;
+	    }
+	  } else if (tpiece) {
+	    nclosed ++;
+	  }
+	} else if (tpiece) {
+	  nclosed ++;
+	}
+
+	/* (nclosed > 2) prints ("Nclosed > 2"); */
+	if (nline >= inaline) {
+	  mline = inaline; nline = inaline;
+	}
+	ceval += wineval [nline + (nclosed << 3) + offseteval];
+}
+
+  /* Term-node eval (cxpos,cypos,ccolor), ceval */
+
+function evalpos (ixpos, iypos, icolor) 
+{
+	var tpos;
+	tpos = ixpos + iypos * bmult;
+	ceval = 0;
+	mline = 0;
+	scanline (tpos, icolor, 1);
+	scanline (tpos, icolor, bmult - 1);
+	scanline (tpos, icolor, bmult);
+	scanline (tpos, icolor, bmult + 1);
+	return ceval;
+}
+
+  /* Find next vacant row on col. */
+
+function findypos (fxpos)
+{
+	var fypos;
+	yoff = fxpos + boardy * bmult;
+	for (fypos = boardy; fypos; fypos--) {
+	  if ( board [yoff] == 0) return (fypos);
+	  yoff -= bmult;
+	}
+	return (-1);
+}
+
+  /* Eval for (ccolor), ret best move (bxpos,bypos,beval) 
+       Simple original 1 ply static search */
+
+var startdepth;
+
+var WIN_EVAL = 5000;
+
+function AlphaBeta(depth, alpha, beta, upeval) 
+{
+    var seval;
+    var sxpos,sypos;
+    var neweval;
+    var nmoves;
+
+    nmoves = 0;
+    for ( sxpos = 1; sxpos <= boardx; sxpos ++) {
+      sypos = findypos (sxpos);
+      if ( sypos > 0) {
+        nmoves ++;
+        neweval = upeval + evalpos (sxpos, sypos, ccolor);
+	neweval -= (Math.abs (sxpos - ((boardx >> 1) + 1)) << 2);	/* Center tropism */
+	if (mline >= inaline) {
+	  if (depth == startdepth) {
+	    bxpos = sxpos; bypos = sypos;
+	  }
+	  nodecount ++;
+	  return WIN_EVAL + depth;
+	}
+  	neweval += (evalpos (sxpos, sypos, 3-ccolor) >> 2);
+		/* Do move */
+	SetBoard (sxpos,sypos,ccolor);
+	ccolor = 3 - ccolor;
+		/* Search deeper? */
+	if (depth > 0) {
+	  seval = -AlphaBeta (depth-1, -beta, -alpha, -neweval);
+	} else {	
+	  seval = neweval;	/* Use accumulated seval as score */
+	  nodecount ++;
+	}
+		/* Undo move */
+	SetBoard (sxpos,sypos,0);
+	ccolor = 3 - ccolor;
+	if (debugflag) {
+	  printsi (".",depth); printsi (":",sxpos); printsi ("=",seval);
+	  if (seval > alpha) printc ('*');
+	  if (depth == startdepth) prints ("\n");
+	}
+		/* First ply.. */
+	if (depth == startdepth) {
+	  if (seval > alpha) {
+	    bxpos = sxpos; bypos = sypos;
+	  }
+	  sch_callback (sxpos, sypos, seval);
+	}
+	if (seval > alpha) {
+	  alpha = seval;
+	}
+	if (seval >= beta) {
+	  return beta;
+	}
+      }
+    }
+    if (nmoves == 0) {	/* No moves, drawn. */
+      nodecount ++;
+      return 0;	
+    }
+    return alpha;
+}
+
+function compmove ()
+{
+    startdepth = iqlevel; 
+    nodecount = 0;
+    bxpos = -1;
+    beval = AlphaBeta (iqlevel, -12000, 12000, 0);
+    return bxpos;
+}
+
+/* 
+var AlphaBeta(var depth, var alpha, var beta)
+{
+    if (depth == 0)
+        return Evaluate();
+    GenerateLegalMoves();
+    while (MovesLeft()) {
+        MakeNextMove();
+        val = -AlphaBeta(depth - 1, -beta, -alpha);
+        UnmakeMove();
+        if (val >= beta)
+            return beta;
+        if (val > alpha)
+            alpha = val;
+    }
+    return alpha;
+}
+*/
+
+    /* Set game over status */
+function isGameOver (xpos,ypos)
+{
+    var x;
+    if (gameover) return gameover;
+    if (xpos) {
+      evalpos (xpos,ypos,ccolor);
+      if (mline >= inaline) {	/* Win line? */
+        gameover = ccolor;
+        return gameover;
+      }
+    }
+	/* is game drawn? */
+    for (x=1; x<=boardx; x++) {
+      if (GetBoard (x,1) == 0) return 0;
+    }
+    gameover = 3;	/* Draw */
+    return gameover;
+}
+
+
+  /* Make a move */
+function makemove (x)
+{
+    pxpos = x;
+    pypos = findypos (pxpos);
+    if ( pypos < 1) {
+      return 0;
+    }
+    if (isGameOver (pxpos, pypos)) {
+      SetBoard ( pxpos, pypos, ccolor);
+      return 0;
+    }
+    SetBoard ( pxpos, pypos, ccolor);
+    ccolor = White + Black - ccolor;
+    return 1;
+}
+
+/*-------------------------------------------------
+   Simple text console type i/o..
+---------------------------------------------------*/
+
+	/* Font to use, set when clearing screen.. */
+var prog_font = "<div style=font-family:monospace;font-size:24; </div>";
+
+function io_puts(str)
+{
+    document.write(str);
+    //document.body.innerHTML += str;
+}
+
+function io_putint(iint)
+{
+    io_puts(iint);
+}
+
+function io_putsi (istr, iint)		/* Composite short cut */
+{
+	io_puts (istr);
+	io_puts (iint);
+}
+
+function io_rand ()
+{
+    return Math.floor(Math.random()*32768);
+}
+
+function io_clrvdu()
+{
+    document.write("");
+    document.body.innerHTML = "";
+    document.write(prog_font);
+}
+
+function io_gets (str_prompt)
+{
+    return prompt(str_prompt,"");
+}
+
+/*-------------------------------------------------
+   TEXT VERSION: Front end code starts here..
+---------------------------------------------------*/
+
+function txt_callback (sxpos, sypos, seval)
+{
+    io_putsi (" ",sxpos);
+    //io_putsi (",",sypos);
+    io_putsi ("=",seval);
+}
+
+
+  /* Redraw board using simple ascii */
+function txt_drawboard ()
+{
+    var xp,yp,v;
+    io_puts ("<br>");
+    for (yp = 1; yp <= boardy; yp++) {
+      for (xp = 1; xp <= boardx; xp++) {
+        io_puts ("!");
+        v = GetBoard (xp,yp);
+	io_puts (" XO".substr(v & 3,1));
+      }
+      io_puts ("!<br>");
+    }
+    for (xp = 1; xp <= boardx; xp++) {
+      io_putsi ("-",xp);
+    }
+    io_puts ("-<br><br>");
+    if (gameover) {
+      if (gameover == White) {
+        io_puts ("White (X) win");
+      } else if (gameover == Black) {
+        io_puts ("Black (O) win");
+      } else {
+        io_puts ("Drawn");
+      }
+    } else {
+      if (ccolor == White) {
+        io_puts ("White (X) move");
+      } else {
+        io_puts ("Black (O) move");
+      }
+    }
+    io_putsi (". IQ:",iqlevel);
+
+    io_puts ("<br>");
+
+}
+
+function txt_main()
+{
+    var cret;
+    var cmd;
+    var str;
+    var x,y;
+
+    io_puts(prog_name);
+    io_clrvdu ();
+    io_puts(prog_name);
+    io_puts("<br>");
+    newgame ();
+    while (1) {
+      isGameOver (0,0);		/* Check for draw.. */
+      txt_drawboard ();
+      cmd = io_gets ("Enter command (1-8,gnix) ? ");
+      cmdch = cmd.substr (0,1);		/* Command char: cmdch = mid$(cmd,1,1) */
+      if (cmdch == "x" || cmd == undefined) return;
+      io_clrvdu ();
+      if (cmd > 0 && cmd < 10) {	/* User move 1-9 */
+        if (gameover) continue;
+	pxpos = cmd & 15;
+	cret = makemove (pxpos);
+	if (cret == 0) continue;
+	cmd = "g";	/* Force reply */
+      }
+      if (cmdch == "n") {	/* New game (n or n## to set x/y board size) */
+	x = Math.floor(cmd.substr (1,1));
+	y = Math.floor(cmd.substr (2,1));
+        if (x>3 && y>3) {
+	  boardx = x; 
+	  boardy = y;
+	}
+        newgame ();
+        io_puts(prog_name);
+        io_puts("<br>");
+	continue;
+      }
+      if (cmdch == "i") {		/* cmd: i# */
+        iqlevel = Math.floor(cmd.substr (1,2));		/* iqlevel =val(mid$(cmd,2,2)) */
+      }
+      if (cmd == "" || cmd == "g" ) {		/* g: Computer move */
+        if (gameover) {
+          io_puts("<br><br>");
+	  continue;
+	}
+        io_puts ("Hmm.. ");
+        cret = compmove ();
+        if (cret < 0) {
+          io_puts ("<br>");
+	  continue;
+        }
+        io_putsi("<br>Move:",(cret));
+        io_putsi(" Eval:",beval);
+        io_putsi(" Node:",nodecount);
+        io_puts("<br>");
+        makemove (cret);
+	continue;
+      }
+      io_puts("<br><br>");
+    }
+}
+
+/*-------------------------------------------------
+   CANVAS VERSION: Front end code starts here..
+---------------------------------------------------*/
+
+var use_bmp = 1;	/* Enable bitmaps */
+
+var ctx;	/* Canvas context */
+
+var canx = 600;		/* Canvas size */
+var cany = 400;
+
+var sqx,sqy;		/* Target cell size */
+
+var srcx = 32;		/* Bitmap Source cell size */
+var srcy = 32;
+
+var borderx = 10;	/* Boarder size */
+var bordery = 10;
+
+var winx,winy;		/* Window size (from OS) */
+
+var hImg = null;
+
+var twoPlayer = 0;
+var doingCompute = 0;	/* Inhibit commands while computing */
+
+var outStr = "";	/* Current output message (Analy, etc) */
+
+var colBack = 'rgb(128,128,128)';
+
+var strHelp = 
+	"JDROP 1.08 (C) ORAC of TELLIMA 1981-2020. Freeware!\n"+
+	"1-9: Move.  g: Computer go.  n: New.\n"+
+	"v: Graphics mode.  q,w: Board size.  t:Two player.\n"+
+	"i: IQ++    j:IQ--\n";
+
+  /* Simple text output below canvas */
+function cv_puts (str)
+{
+    if (str == "") {	/* Clear text. */
+      idDisplay.innerHTML = "";	
+      return;
+    }
+    idDisplay.innerHTML += str;	
+}
+
+	/* Show analysis */
+function cv_callback (sxpos, sypos, seval)
+{
+    var analy;
+    analy = " "+sxpos+"="+seval;
+    outStr += analy;
+    cv_puts (analy);
+}
+
+	/* Draw piece using bitmap image */
+function cv_drawPieceImage (xp,yp,cpiece)
+{
+    var gx,gy;
+    var locx;
+    gx = borderx + (xp-1)*sqx;
+    gy = bordery + (yp-1)*sqy;
+    if (cpiece == 0) {
+      ctx.fillStyle = 'rgb(74,66,156)';
+      ctx.fillRect (gx,gy,sqx,sqy);
+      ctx.fillStyle = "rgb(0,0,0)";
+      ctx.fillRect (gx+sqx/2-1,gy+sqy/2-1,2,2);
+      return;
+    }
+    locx = srcx * (cpiece-1);		/* Calc offset into bitmap*/
+
+		/* Scale image to screen */
+    ctx.drawImage(hImg, locx,0, srcx,srcy, gx,gy,sqx,sqy);
+}
+
+	/* Draw a piece */
+function cv_drawPiece (xp,yp,cpiece)
+{
+    var gx,gy;
+    var col;
+    var rad;
+    if (use_bmp && hImg) {	/* Image mode? */
+      cv_drawPieceImage (xp,yp,cpiece);
+      return;
+    }
+	/* Draw piece using GDI circles, sqrs, etc */
+    rad = sqx / 2;
+    gx = borderx + (xp-1)*sqx;
+    gy = bordery + (yp-1)*sqy;
+	/* */
+    ctx.fillStyle = 'rgb(0,0,0)';
+    ctx.fillRect (gx,gy,sqx,sqy);
+    col = 'rgb(32,32,160)';
+    switch (cpiece) {
+      case White:
+        col = 'rgb(220,220,220)';
+      case Black:
+        ctx.beginPath();
+        ctx.arc(gx+rad, gy+rad, rad-(rad/4), 0, Math.PI*2, true);
+        ctx.closePath();
+        ctx.fillStyle = col;
+        ctx.fill();
+        break;
+      case 0:		/* Place dot in blank sqr */
+        ctx.fillStyle = 'rgb(128,128,128)';
+        ctx.fillRect (gx+rad-1,gy+rad-1,2,2);
+	break;
+    }
+}
+
+function cv_drawboard ()
+{
+    var xp,yp,v;
+    sqx = Math.floor((canx-borderx*2)/boardx); 
+    sqy = Math.floor((cany-bordery*2)/boardy); 
+    sqx = Math.min(sqx,sqy);
+    sqy = sqx;
+	/* Draw background/border */
+    ctx.fillStyle = colBack;
+    ctx.fillRect (0,0, canx,cany);
+    ctx.strokeStyle = 'rgb(255,255,192)';
+    ctx.strokeRect (borderx-1,bordery-1, boardx*sqx+2,boardy*sqy+2);
+	/* Draw board */
+    for (yp = 1; yp <= boardy; yp++) {
+      for (xp = 1; xp <= boardx; xp++) {
+        v = GetBoard (xp,yp);
+	cv_drawPiece (xp,yp,v);
+      }
+    }
+	/* Draw text info */
+    cv_puts ("");
+    if (gameover) {
+      if (gameover == White) {
+        cv_puts (" White win");
+      } else if (gameover == Black) {
+        cv_puts (" Black win");
+      } else {
+        cv_puts (" Drawn");
+      }
+    } else {
+      if (ccolor == White) {
+        cv_puts ("White move");
+      } else {
+        cv_puts ("Black move");
+      }
+    }
+    cv_puts ("  IQ:"+iqlevel);
+    if (twoPlayer) cv_puts ("  Two Player");
+    cv_puts ("<br>"+outStr);
+}
+
+function cv_compute()
+{
+    var cret;
+    var tim;
+    var ctime;
+
+    doingCompute = 0;
+    if (gameover) return;
+    tim = new Date ();
+    ctime = tim.getTime ();
+    cret = compmove ();
+    if (cret < 0) return;
+    tim = new Date ();
+    ctime = (tim.getTime () - ctime)/1000;	/* Calc compute time */
+    outStr = "Move:"+cret+"="+beval+", Node:"+nodecount+", Time:"+ctime+" ("+outStr+") ";
+    makemove (cret);
+    cv_drawboard ();
+}
+
+function cv_cmdkey(ckey)
+{
+    var movx;
+
+    if (doingCompute) return;
+    isGameOver (0,0);		/* Check for draw.. */
+    cv_puts ("");
+
+    if (ckey > 48 && ckey < 64) {	/* Make a human move */
+      cv_drawboard ();
+      if (gameover) return;
+      cret = makemove (ckey - 48);
+      cv_drawboard ();
+      if (cret == 0) return;
+      if (gameover) return;
+      if (twoPlayer == 0) ckey = 13;
+    }
+    switch (ckey) {
+     
+      case 103:			/* g or [ENTER]: Compute */
+      case 71:
+      case 13:		
+        if (gameover) break;
+        setTimeout ("cv_compute();",1);		/* Use timer to call compute, allow redraw.. */
+	outStr= "";
+        cv_puts ("");
+        cv_puts ("Hmm.. ");
+	doingCompute = 1;
+	return;
+
+      case 104:			/* h: help */
+      case 72:
+        alert (strHelp);
+	break;
+
+      case 116:			/* t: Two player mode */
+      case 84:
+        twoPlayer = !twoPlayer;
+	break; 
+
+      case 118:			/* v: Graphics view */
+      case 86:
+        use_bmp = !use_bmp;
+	break;
+
+      case 111:			/* o: orig */
+      case 79:
+        boardx = 6;
+	boardy = 6;
+      
+      case 113:			/* q: inc width */
+      case 81:
+        boardx++;
+	if (boardx > MAXX) boardx = 4;
+	boardy--;
+
+      case 119:			/* w: inc height  */
+      case 87:
+	boardy++;
+	if (boardy > MAXY) boardy = 4;
+
+      case 110:			/* n: New game */
+      case 78:
+	outStr= "New. ("+boardx+"x"+boardy+") ";
+        newgame ();
+        cv_puts (prog_name);
+	break;
+
+      case 74:			/* j: IQ level --.. */
+      case 106:     
+        iqlevel -= 2;
+
+      case 73:			/* i: IQ level ++.. */
+      case 105:     
+        iqlevel = (iqlevel & 15) + 1;
+        break;
+    }
+    cv_drawboard ();
+}
+
+
+function cv_mouse(mx,my)
+{
+    var movx;
+    isGameOver (0,0);		/* Check for draw.. */
+    movx = Math.floor((mx-borderx)/sqx);
+    if (movx < boardx) {
+      cv_cmdkey (49+movx);
+      return ;
+    }
+    cv_cmdkey (103);
+    //cv_drawboard ();
+}
+
+  /* Set Canvas size to window size */
+function cv_resize ()
+{
+    winx =document.body.clientWidth;
+    winy =document.body.clientHeight;
+    idCanvas.width = winx-borderx;
+    idCanvas.height = winy-bordery*2-40;
+    canx = idCanvas.width;
+    cany = idCanvas.height;
+    cv_puts ("");
+    cv_drawboard ();
+    //alert ("Canvas size:"+canx+","+cany+"  Window size:"+winx+","+winy);
+}
+
+
+  /* Initialise canvas */
+function cv_main()
+{
+    if (use_bmp) {
+      hImg = new Image ();
+      hImg.src = "jball.png";
+    }
+    window.status = prog_name;
+    outStr = prog_name;
+    ctx = document.getElementById('idCanvas').getContext('2d');
+    newgame ();
+    isGameOver (0,0);		/* Check for draw.. */
+    cv_resize ();
+    cv_drawboard ();
+}
+
+/*-------------------------------------------------
+   HTML: Init code, etc
+---------------------------------------------------*/
+
+function sch_callback (sxpos, sypos, seval)
+{
+    if (use_canvas) {	/* Select canvas/text front end*/
+      cv_callback (sxpos, sypos, seval);
+    } else {
+      txt_callback (sxpos, sypos, seval);
+    }
+
+}
+
+  /* Mouse hit on canvas? */
+idCanvas.onmousedown = function(e) 
+{
+    if (use_canvas == 0) return;
+    cv_mouse (e.clientX, e.clientY);
+	//alert ("Mouse:"+e.clientX+","+e.clientY);
+	/// var x = e.clientX - getTrueOffsetLeft(canvas) + window.pageXOffset;
+}
+
+  /* Key hit on canvas? */
+idCanvas.onkeypress = function(e)	/* or .onkeydown (non repeat) */
+{
+    if (use_canvas == 0) return;
+    cv_cmdkey (e.keyCode);		/* 37..40=cursor.. */
+    //alert ("Key:"+e.keyCode);
+}
+
+  /* Key hit on canvas? */
+document.onkeydown = function(e)	/* or .onkeydown (non repeat) */
+{
+    if (use_canvas == 0) return;
+    cv_cmdkey (e.keyCode);		/* 37..40=cursor.. */
+    //alert ("Key:"+e.keyCode);
+}
+		// Window resize event..
+document.onresize = function(e) 
+{ 
+    if (use_canvas == 0) return;
+    cv_resize ();
+}
+
+if (use_canvas) {	/* Select canvas/text front end*/
+  cv_main ();
+} else {
+  txt_main ();
+}
+
+/*---------------------------------------------------------------------------------------------*/
+
+</script>
+</html>

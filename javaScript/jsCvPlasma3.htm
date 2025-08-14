@@ -1,0 +1,82 @@
+<!-- jsCvPlasma: Javascript Canvas Based Plasma demo: (C) ORAC of TELLIMA 2016. Freeware! -->
+
+<html>
+<center>
+<canvas id="Canv" width=600 height=480></canvas>
+<pre id=MyDisplay>
+<script>
+
+var prog_name = "jsCvPlasma: Javascript Canvas Based Plasma demo: (C) ORACof TELLIMA 2016. Freeware!";
+
+var VduX = 120;		/* Canvas scaled size */
+var VduY = 120;	
+var ppx = 5;		/* Size of pixels */
+var ppy = 4;
+var tim = 0;
+var bufx = [256];
+
+var coltab = [260];
+
+  /* Gen rand color gradient lookup */
+function fillColor ()
+{
+  var r,g,b,x;
+  var sr,sg,sb;		/* RGB rnd scaler */
+  sr = Math.floor(Math.random()*8); 
+  sg = Math.floor(Math.random()*8);
+  sb = Math.floor(Math.random()*8); 
+  for (x=0; x<256; x++) {
+    r = (x*sr) & 255; 
+    g = (x*sg) & 255; 
+    b = (x*sb) & 255;
+    coltab [x] = "rgb("+r+","+g+","+b+")";
+  }
+}
+
+
+	/* Draw a frame */
+function DrawFrame ()
+{
+  var x,y,yy;
+  var tmp,t2;
+
+  tim ++;		/* Frame/time count */
+  t2=tim/2;
+
+  Cv = Canv.getContext('2d');
+  if ((tim & 127) == 0) {
+    fillColor ();
+  }
+
+	/* Gen sine lookup for X-Axis (bufx[]) */
+  for (x=0; x < VduX; x++) {
+    tmp = Math.sin ((x+tim)/19) + Math.sin ((x-t2+3)/11) + Math.sin ((x+x+t2)/37); 
+    bufx [x] = Math.floor((tmp+3)*20);
+  }
+	/* Main frame update */
+  for (y= (tim&1); y < VduY; y+=2) {
+		/* Calc sine for Y-Axis */
+    tmp = Math.sin ((y+y-tim)/17) + Math.sin ((y+t2)/13);
+    yy = Math.floor((tmp+2)*20);
+    dy = y*ppy; dx = 0;
+
+		/* Simply add x/y sine vals to create output.. */
+    for (x=0; x < VduX; x++) {
+      Cv.fillStyle = coltab[(bufx[x]+yy) & 255];
+      Cv.fillRect (dx, dy, ppx,ppy);
+      dx += ppx;
+    }
+  }
+}
+
+function app_main ()
+{
+  fillColor ();
+  MyDisplay.innerHTML = prog_name;	
+  setInterval('DrawFrame();',20);
+}
+
+app_main ();
+
+</script>
+</html>
