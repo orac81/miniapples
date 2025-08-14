@@ -60,7 +60,7 @@ Download: <https://github.com/orac81/miniapples/raw/refs/heads/main/sconnex-late
 
 ## CONNEX (1982) (CBM)
 
-<img src ="https://github.com/orac81/miniapples/blob/main/connex-c16-1.png">
+<img src ="https://github.com/orac81/miniapples/blob/main/cbm/connex-c16-1.png">
 
 CONNEX is a version of the well known "4-in-a-line" game (Connect-4, aka "Captain's Mistress", "Le passe temps", Edwardian parlor game "four ball".. ),
 for any Commodore computer (C64, C16, PET, VIC, etc).
@@ -72,17 +72,17 @@ The "connex-zen-vic5k.prg" VIC20 version of CONNEX was first published in
 Personal Computer World Magazine, Jan 1983. 
 
 Commodore C64, Vic20, Plus4, PET version:
-<https://github.com/orac81/miniapples/raw/refs/heads/main/connex8.zip>
+<https://github.com/orac81/miniapples/raw/refs/heads/main/cbm/connex8.zip>
 
 
 ## FRUIT HOOT
 
-<img src ="https://github.com/orac81/miniapples/blob/main/fruit1.png">
+<img src ="https://github.com/orac81/miniapples/blob/main/cbm/fruit-screen1.png">
 
 Fruit hoot is a simple fruit machine for the Commodore, a bit of Petscii art.
 
 Commodore C64, Vic20, Plus4, PET version:
-<https://github.com/orac81/miniapples/raw/refs/heads/main/fruit-hoot3.zip>
+<https://github.com/orac81/miniapples/raw/refs/heads/main/cbm/fruit-hoot3.zip>
 
 
 
