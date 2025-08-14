@@ -60,7 +60,7 @@ Download: <https://github.com/orac81/miniapples/raw/refs/heads/main/sconnex-late
 
 ## CONNEX (1982) (CBM)
 
-<img src ="https://github.com/orac81/miniapples/cbm/blob/main/connex-c16-1.png">
+<img src ="https://github.com/orac81/miniapples/blob/main/cbm/connex-c16-1.png">
 
 CONNEX is a version of the well known "4-in-a-line" game (Connect-4, aka "Captain's Mistress", "Le passe temps", Edwardian parlor game "four ball".. ),
 for any Commodore computer (C64, C16, PET, VIC, etc).
