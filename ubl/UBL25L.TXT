@@ -1,0 +1,804 @@
+ rem rem UBL, Universal Basic Library
+ rem (C) A.Millett 1980-2025. Released as free software under GPL3.
+ rem  allows porting progs between many Microsoft-type basic platforms
+ rem  take from FALLZ11L.TXT 25.10.12
+ rem -> UBL10L.TXT 26.10.12
+ rem  imp crsr & color ctrl. move cls/backg up to 9670/9680
+ rem -> UBL11L.TXT 27.10.12
+ rem  ..
+ rem -> UBL14L.TXT 2.11.12
+ rem  imp spectrum ver. imp step u5 [9690]
+	 rem -> UBL15L.TXT 7.11.12
+ rem  imp color peek [9700] correct bug QB str out [9610]
+ rem -> UBL16L.TXT 26.8.13
+ rem  imp more  "special" chars (9580) ie Form chr (+-!) Med res block. etc.
+ rem -> UBL17L.TXT 12.6.14
+ rem -> UBL18L.TXT 14.6.14
+ rem -> UBL19L.TXT 24.6.14
+ rem  2do:CPM/ANSI/VT100,Atari800,CPC,MSX,Amiga..
+ rem -> UBL20L.TXT 1.8.14
+ rem  imp color (u2) for 9690 fill.
+ rem  imp 9710-uf=time
+ rem -> UBL21L.TXT 7.8.14
+ rem -> UBL25L.TXT 12.11.2025
+rem -----1---------2---------3---------4---------5---------6---------7---------8
+
+
+ 9499 rem ubl 1.0 (universal basic library) lines 9500-9999
+      rem variable names starting with u.. reserved for lib.
+      rem lib uses 2-49 (fast subs) 9500-9999 (slow subs)
+      rem user code must use 100-9490 [and 10000-]
+
+    rem version for all commodore 8 bit comps.
+  2 goto 100
+    rem colorPoke(u,u2):screenPoke(u,u1)
+  3 poke uc+u,u2
+    rem screenPoke(u,u1)
+    rem 4 if u<0 or u>1024 then stop
+  4 poke uv+u,u1:return
+    rem screenDoke(u,u1,u2)
+  6 poke uv+u,u1:poke uv+u+1,u2:return
+    rem u1=screenPeek(u)
+  8 u1=peek(uv+u):return
+      rem initialise library      
+ 9500 u=rnd(0):u1=u:uv=32768:ux=40:uy=25:uc=61440:rem vdu,x/y size,color
+ 9505 for u=1to25:ud$=ud$+chr$(17):next
+ 9510 if peek(59238)=80 then ux=80:rem cbm8032?
+ 9512 ut$="f173:!8"+chr$(128)+"b"+chr$(194)+"a"+chr$(193)+"; ="
+ 9515 poke65532,246:um=peek(65532):if um=34 then 9540
+ 9520 if um=226 or um=61 then uv=1024:uc=55296:rem c64/128
+ 9525 if um=246 then uv=3072:uc=2048:rem +4
+ 9530 if um=151 then uv=53248:ux=80:rem cbm700
+ 9535 return
+      rem init vic20
+ 9540 u=(peek(36866)and128)*4:uv=(peek(36869)and112)*64+u
+ 9545 ux=22:uy=23:uc=37888+u:return
+      rem u=getkey()  (ret if null)
+ 9560 get u$:u=asc(u$+chr$(0)):return
+      rem u=getkey()
+ 9570 get u$:if u$="" then 9570
+ 9572 u=asc(u$):return
+      rem get "special" poke-char(u),printable(u1) (typical asc "%*OHDSC#_^)(+-!") 
+ 9580 u=asc(mid$(ut$,u,1))+32:u1=u+128:return 
+      rem asc to peek/poke code
+ 9590 u=u and 63:return
+      rem u=random()  0..1
+ 9600 u=rnd(ux):return
+      rem poke output (u$) at vdu(ui,uj)
+ 9610 ui=uj*ux+uv+ui-1:u1=63
+ 9615 for u=1tolen(u$):pokeui+u,asc(mid$(u$,u,1))andu1:next
+ 9617 return
+      rem convert cga-type rgbi (0-15 bits:irgb) to local color poke val.
+ 9630 if um=246 then 9638
+ 9632 if um=34 then u=asc(mid$("@fecbdga@fecbdga",u+1))and7:return
+ 9635 u=asc(mid$("@fecbdgolnmnjjga",u+1))and15
+ 9636 return
+ 9638 u=(asc(mid$("@fecbdgapvusrtwq",u+1))and31):u=u+16+(uand16)*4
+ 9639 return
+      rem set rgbi(u) ink for print
+ 9640 print chr$(asc(mid$("BqpQnNP7BqpQnNP7",u+1))-50);:return
+      rem set print cursor pos(ui,uj) (1..n)
+ 9650 print chr$(19)left$(ud$,uj-1)spc(ui-1);:return
+      rem get print cursor pos(ui,uj)
+ 9660 ui=pos(x):return
+      rem cls
+ 9670 print chr$(5);chr$(147);:return
+      rem set screen colour (u)
+ 9680 gosub 9630
+ 9681 if um=226 or um=61 then poke 53280,u:poke53281,u
+ 9682 if um=34 then poke 36879,8 or (u*17)
+ 9684 if um=246 then poke 65301,u+16:poke 65305,u+16
+ 9689 return
+      rem fast fill (u3..u4 step u5) with u1, (colour u2 if set)
+ 9690 if u2 then for u=uc+u3 to uc+u4 step u5:poke u,u2:next
+ 9695 for u=uv+u3 to uv+u4 step u5:poke u,u1:next:return
+      rem u2=colorPeek(u)
+ 9700 u2=peek(uc+u):return
+      rem time in secs (uf=float var)
+ 9710 uf=ti/60:return
+
+
+     rem patch for basic64/opt 2
+ 19 rem@r=uc,u,uv,uf
+ 9690 if u2 then for u=uc+u3 to uc+u4:poke u,u2:u=u+u5-1:next
+ 9695 for u=uv+u3 to uv+u4:poke u,u1:u=u+u5-1:next:return
+
+rem -----1---------2---------3---------4---------5---------6---------7---------8
+	
+      rem vic20 only version (small for unexp)
+  2 goto 100
+    rem color(u)=u2:screen(u)=u1
+  3 poke uc+u,u2
+    rem screenPoke(u,u1)
+  4 poke uv+u,u1:return
+    rem screenDoke(u,u1,u2)
+  6 poke uv+u,u1:poke uv+u+1,u2:return
+    rem u1=screenPeek(u)
+  8 u1=peek(uv+u):return
+      rem initialise library      
+ 9500 u=rnd(0):ux=22:uy=23:for u=1to25:ud$=ud$+chr$(17):next
+ 9510 u=(peek(36866)and128)*4:uv=(peek(36869)and112)*64+u
+ 9512 ut$="f173:!8"+chr$(128)+"b"+chr$(194)+"a"+chr$(193)+"; ="
+ 9520 uc=37888+u:return
+      rem u=getkey()  (ret if null)
+ 9560 get u$:u=asc(u$+chr$(0)):return
+      rem u=getkey()
+ 9570 get u$:if u$="" then 9570
+ 9572 u=asc(u$):return
+      rem get "special" poke-char(u),printable(u1) (typical asc "%*OHDSC#_^)(+-!") 
+ 9580 u=asc(mid$(ut$,u,1))+32:u1=u+128:return 
+      rem asc to peek/poke code
+ 9590 u=u and 63:return
+      rem u=random()  0..1
+ 9600 u=rnd(ux):return
+      rem poke output (u$) at vdu(ui,uj)
+ 9610 ui=uj*ux+uv+ui-1:for u=1tolen(u$)
+ 9615 poke ui+u,asc(mid$(u$,u,1))and63:next:return
+      rem convert cga-type rgbi (0-15 bits:irgb) to local color poke val.
+ 9630 u=asc(mid$("@fecbdga@fecbdga",u+1))and7:return
+      rem set ink for print
+ 9640 print chr$(asc(mid$("BqpQnNP7BqpQnNP7",u+1))-50);:return
+      rem set print cursor pos(ui,uj) (1..n)
+ 9650 print chr$(19)left$(ud$,uj-1)spc(ui-1);:return
+      rem get print cursor pos(ui,uj)
+ 9660 return
+      rem cls
+ 9670 print chr$(5);chr$(147);:return
+      rem set screen colour (u)
+ 9680 gosub 9630:poke 36879,8 or (u*17):return
+      rem fast fill (u3..u4 step u5) with u1, (colour u2 if set)
+ 9690 if u2 then for u=uc+u3 to uc+u4 step u5:poke u,u2:next
+ 9695 for u=uv+u3 to uv+u4 step u5:poke u,u1:next:return
+      rem u2=colorPeek(u)
+ 9700 u2=peek(uc+u):return
+      rem time in secs (uf=float var)
+ 9710 uf=ti/60:return
+
+rem -----1---------2---------3---------4---------5---------6---------7---------8
+
+      rem cbm64 version
+  2 goto 100
+    rem color(u)=u2:screen(u)=u1
+  3 poke uc+u,u2
+    rem screenPoke(u,u1)
+  4 poke uv+u,u1:return
+    rem screenDoke(u,u1,u2)
+  6 poke uv+u,u1:poke uv+u+1,u2:return
+    rem u1=screenPeek(u)
+  8 u1=peek(uv+u):return
+      rem initialise library      
+ 9500 uv=1024:ux=40:uy=25:uc=55296:
+ 9510 for u=1to25:ud$=ud$+chr$(17):next:return
+      rem u=getkey()  (ret if null)
+ 9512 ut$="f173:!8"+chr$(128)+"b"+chr$(194)+"a"+chr$(193)+"; ="
+ 9560 get u$:u=asc(u$+chr$(0)):return
+      rem u=getkey()
+ 9570 get u$:if u$="" then 9570
+ 9572 u=asc(u$):return
+      rem get "special" poke-char(u),printable(u1) (typical asc "%*OHDSC#_^)(+-!") 
+ 9580 u=asc(mid$(ut$,u,1))+32:u1=u+128:return 
+      rem asc to peek/poke code
+ 9590 u=u and 63:return
+      rem u=random()  0..1
+ 9600 u=rnd(ux):return
+      rem poke output (u$) at vdu(ui,uj)
+ 9610 ui=uj*ux+uv+ui-1:for u=1tolen(u$)
+ 9615 poke ui+u,asc(mid$(u$,u,1))and63:next:return
+      rem convert cga-type rgbi (0-15 bits:irgb) to local color poke val.
+ 9630 u=asc(mid$("@fecbdgolnmnjjga",u+1))and15
+ 9632 return
+      rem set rgbi(u) ink for print
+ 9640 print chr$(asc(mid$("BqpQnNP7BqpQnNP7",u+1))-50);:return
+      rem set print cursor pos(ui,uj) (1..n)
+ 9650 print chr$(19)left$(ud$,uj-1)spc(ui-1);:return
+      rem get print cursor pos(ui,uj)
+ 9660 ui=pos(x):return
+      rem cls
+ 9670 print chr$(5);chr$(147);:return
+      rem set screen colour (u)
+ 9680 gosub 9630:poke 53280,u:poke53281,u:return
+      rem fast fill (u3..u4 step u5) with u1, (colour u2 if set)
+ 9690 if u2 then for u=uc+u3 to uc+u4 step u5:poke u,u2:next
+ 9695 for u=uv+u3 to uv+u4 step u5:poke u,u1:next:return
+      rem u2=colorPeek(u)
+ 9700 u2=peek(uc+u):return
+      rem time in secs (uf=float var)
+ 9710 uf=ti/60:return
+
+rem -----1---------2---------3---------4---------5---------6---------7---------8
+
+      rem pet 30xx version
+  2 goto 100
+    rem color(u)=u2:screen(u)=u1
+  3 rem
+    rem screenPoke(u,u1)
+  4 poke uv+u,u1:return
+    rem screenDoke(u,u1,u2)
+  6 poke uv+u,u1:poke uv+u+1,u2:return
+    rem u1=screenPeek(u)
+  8 u1=peek(uv+u):return
+      rem initialise library      
+ 9500 u=rnd(0):uv=32768:ux=40:uy=25
+ 9510 for u=1to25:ud$=ud$+chr$(17):next:return
+ 9512 ut$="f173:!8"+chr$(128)+"b"+chr$(194)+"a"+chr$(193)+"; ="
+      rem u=getkey()  (ret if null)
+ 9560 get u$:u=asc(u$+chr$(0)):return
+      rem u=getkey()
+ 9570 get u$:if u$="" then 9570
+ 9572 u=asc(u$):return
+      rem get "special" poke-char(u),printable(u1) (typical asc "%*OHDSC#_^)(+-!") 
+ 9580 u=asc(mid$(ut$,u,1))+32:u1=u+128:return 
+      rem asc to peek/poke code
+ 9590 u=u and 63:return
+      rem u=random()  0..1
+ 9600 u=rnd(ux):return
+      rem poke output (u$) at vdu(ui,uj)
+ 9610 ui=uj*ux+uv+ui-1:for u=1tolen(u$)
+ 9615 poke ui+u,asc(mid$(u$,u,1))and63:next:return
+      rem convert cga-type rgbi (0-15 bits:irgb) to local color poke val.
+ 9630 return
+      rem set ink for print
+ 9640 return
+      rem set print cursor pos(ui,uj) (1..n)
+ 9650 print chr$(19)left$(ud$,uj+1)spc(ui-1);:return
+      rem get print cursor pos(ui,uj)
+ 9660 ui=pos(0)
+      rem cls
+ 9670 print chr$(147);:return
+      rem set screen colour (u)
+ 9680 return
+      rem fast fill (u3..u4 step u5) with u1
+ 9690 for u=uv+u3 to uv+u4 step u5:poke u,u1:next:return
+      rem u2=colorPeek(u)
+ 9700 return
+      rem time in secs (uf=float var)
+ 9710 uf=ti/60:return
+
+rem -----1---------2---------3---------4---------5---------6---------7---------8
+
+      rem superboard version
+  2 goto 100
+    rem color(u)=u2:screen(u)=u1
+  3 rem
+    rem screenPoke(u,u1)
+  4 poke uv+u,u1:return
+    rem screenDoke(u,u1,u2)
+  6 poke uv+u,u1:poke uv+u+1,u2:return
+    rem u1=screenPeek(u)
+  8 u1=peek(uv+u):return
+      rem initialise library      
+ 9500 uv=53280:ux=32:uy=30:return
+      rem u=getkey()  (ret if null)
+ 9560 rem
+      rem u=getkey()
+ 9570 poke11,0:poke12,253:u=usr(0):u=peek(531):u$=chr$(u):return
+      rem get "special" poke-char(u),printable(u1) (typical asc "%*OHDSC#_^)(+-!") 
+ 9580 u=asc(mid$("%*OHDSC#_^)(+-!",u,1)):u1=u:return 
+      rem asc to peek/poke code
+ 9590 return
+      rem u=random()  0..1
+ 9600 u=rnd(1):return
+      rem poke output (u$) at vdu(ui,uj)
+ 9610 ui=uj*ux+uv+ui-1:for u=1tolen(u$)
+ 9615 poke ui+u,asc(mid$(u$,u,1)):next:return
+      rem convert cga-type rgbi (0-15 bits:irgb) to local color poke val.
+ 9630 return
+      rem set ink for print
+ 9640 return
+      rem set print cursor pos(ui,uj) (1..n)
+ 9650 return
+      rem get print cursor pos(ui,uj)
+ 9660 return
+      rem cls
+ 9670 u1=32:for u=uv to 54272 step 2:poke u,u1:poke u+1,u1:next:return
+      rem set screen colour (u)
+ 9680 return
+      rem fast fill (u3..u4 step u5) with u1
+ 9690 for u=uv+u3 to uv+u4 step u5:poke u,u1:next:return
+      rem u2=colorPeek(u)
+ 9700 return
+      rem time in secs (uf=float var)
+ 9710 return
+
+rem -----1---------2---------3---------4---------5---------6---------7---------8
+ 
+      rem apple2 version
+  2 goto 100
+    rem screenPoke(u,u1)
+    rem color(u)=u2:screen(u)=u1
+  3 rem
+    rem if u8<0 or u8>1023 then print u;" "u7;" ";u8;" "u9:stop
+  4 gosub 10:poke uv+u8,u1:return
+    rem screenDoke(u,u1,u2)
+  6 gosub 4:poke uv+u8+1,u2:return
+    rem u1=screenPeek(u)
+  8 gosub 10:u1=peek(uv+u8):return
+      rem vdu poke adjust - turn u=x+y*uy vdu offset to true vdu address
+ 10 u7=int(u/40):u9=int(u7/8):u8=(u7-u9*8)*128+u9*40+u-u7*40:return
+      rem initialise library      
+ 9500 uv=1024:ux=40:uy=24:return
+      rem u=getkey()  (ret if null)
+ 9560 u=peek(49152)-128:if u<0 then u=0
+ 9562 return
+      rem u=getkey()
+ 9570 get u$:if u$="" then 9570
+ 9572 u=asc(u$):return
+      rem get "special" poke-char(u),printable(u1) (typical asc "%*OHDSC#_^)(+-!") 
+ 9580 u=asc(mid$("%*OHDSC#_^)(+-!",u,1))+128:u1=u:return 
+      rem asc to peek/poke code
+ 9590 u=u+128:return
+      rem u=random()  0..1
+ 9600 u=rnd(ux):return
+      rem poke output (u$) at vdu(ui,uj)
+ 9610 u=uj*ux+ui:gosub 8:uj=u8+uv:for u=1tolen(u$)
+ 9615 poke uj+u,asc(mid$(u$,u,1))+128:next:return
+      rem convert cga-type rgbi (0-15 bits:irgb) to local color poke val.
+ 9630 return
+      rem set ink for print
+ 9640 return
+      rem set print cursor pos(ui,uj) (1..n)
+ 9650 return
+      rem get print cursor pos(ui,uj)
+ 9660 ui=pos(0)
+      rem cls
+ 9670 home:return
+      rem set screen colour (u)
+ 9680 return
+      rem u2=colorPeek(u)
+ 9700 return
+      rem time in secs (uf=float var)
+ 9710 return
+
+rem -----1---------2---------3---------4---------5---------6---------7---------8
+
+      rem apple2 version - faster vdu access
+  2 dim u%(960):goto 100
+    rem color(u)=u2:screen(u)=u1
+  3 rem
+    rem screenPoke(u,u1)
+    rem if u8<0 or u8>1023 then print u;" "u7;" ";u8;" "u9:stop
+  4 poke u%(u),u1:return
+    rem screenDoke(u,u1,u2)
+  6 poke u%(u),u1:poke u%(u)+1,u2:return
+    rem u1=screenPeek(u)
+  8 u1=peek(u%(u)):return
+    rem vdu poke adjust - turn u=x+y*uy vdu offset to true vdu address
+    rem u7=int(u/40):u9=int(u7/8):u8=(u7-u9*8)*128+u9*40+u-u7*40
+      rem initialise library      
+ 9500 u=0:uv=1024:ux=40:uy=24
+ 9510 for u1=0 to 959 step ux:u7=int(u1/ux):u9=int(u7/8)
+ 9520 u2=(u7-u9*8)*128+(u9-u7)*ux+u1+uv
+ 9530 for u=0 to ux-1:u%(u1+u)=u2+u:next:next
+ 9540 return
+      rem u=getkey()  (ret if null)
+ 9560 u=peek(49152)-128:if u<0 then u=0:return
+ 9562 poke 49168,0:return
+      rem u=getkey()
+ 9570 get u$:if u$="" then 9570
+ 9572 u=asc(u$):return
+      rem get "special" poke-char(u),printable(u1) (typical asc "%*OHDSC#_^)(+-!")
+ 9580 u=asc(mid$("%*OHDSC#_^)(+-!",u,1))+128:u1=u:return 
+      rem asc to peek/poke code
+ 9590 u=u+128:return
+      rem u=random()  0..1
+ 9600 u=rnd(ux):return
+      rem poke output (u$) at vdu(ui,uj)
+ 9610 u1=u%(uj*ux+ui):for u=1tolen(u$)
+ 9615 poke u1+u,asc(mid$(u$,u,1))+128:next:return
+      rem convert cga-type rgbi (0-15 bits:irgb) to local color poke val.
+ 9630 return
+      rem set ink for print
+ 9640 return
+      rem set print cursor pos(ui,uj) (1..n)
+ 9650 htab ui:vtab uj:return
+      rem get print cursor pos(ui,uj)
+ 9660 ui=pos(x):return
+      rem cls
+ 9670 home:return
+      rem set screen colour (u)
+ 9680 return
+      rem fast fill (u3..u4 step u5) with u1
+ 9690 for u=u3 to u4 step u5:poke u%(u),u1:next:return
+      rem u2=colorPeek(u)
+ 9700 return
+      rem time in secs (uf=float var)
+ 9710 return
+
+rem -----1---------2---------3---------4---------5---------6---------7---------8
+
+      rem trs80 version
+  2 clear 1024:goto 100
+    rem screenPoke(u,u1)
+  3 rem
+  4 poke uv+u,u1:return
+    rem screenDoke(u,u1,u2)
+  6 poke uv+u,u1:poke uv+u+1,u2:return
+    rem u1=screenPeek(u)
+  8 u1=peek(uv+u):return
+      rem initialise library      
+ 9500 uv=15360:ux=64:uy=16:return
+      rem u=getkey()  (ret if null)
+ 9560 u=asc(inkey$+chr$(0)):return
+      rem u=getkey()
+ 9570 u$=inkey$:if u$="" then 9570
+ 9572 u=asc(u$):return
+      rem get "special" poke-char(u),printable(u1) (typical asc "%*OHDSC#_^)(+-!") 
+ 9580 u=asc(mid$("%*OHDSC#_^)(+-!",u,1)):u1=u:return 
+      rem asc to peek/poke code
+ 9590 return
+       rem u=random()  0..1
+ 9600 u=rnd(0):return
+      rem poke output (u$) at vdu(ui,uj)
+ 9610 ui=uj*ux+uv+ui-1:for u=1tolen(u$)
+ 9615 poke ui+u,asc(mid$(u$,u,1)):next:return
+      rem convert cga-type rgbi (0-15 bits:irgb) to local color poke val.
+ 9630 return
+      rem set ink for print
+ 9640 return
+      rem set print cursor pos(ui,uj) (1..n)
+ 9650 return
+      rem get print cursor pos(ui,uj)
+ 9660 return
+      rem cls
+ 9670 cls:return
+      rem set screen colour (u)
+ 9680 return
+      rem fast fill (u3..u4 step u5) with u1
+ 9690 for u=uv+u3 to uv+u4 step u5:poke u,u1:next:return
+      rem u2=colorPeek(u)
+ 9700 return
+      rem time in secs (uf=float var)
+ 9710 return
+
+rem -----1---------2---------3---------4---------5---------6---------7---------8
+
+      rem sorcerer version
+  2 clear 1024:goto 100
+    rem color(u)=u2:screen(u)=u1
+  3 rem
+  rem 4 if u<0 or u>2000 then stop
+    rem screenPoke(u,u1)
+  4 poke uv+u,u1:return
+    rem screenDoke(u,u1,u2)
+  6 poke uv+u,u1:poke uv+u+1,u2:return
+    rem u1=screenPeek(u)
+  8 u1=peek(uv+u):return
+      rem initialise library      
+      rem vdu=$f080, color=$e000 (unused)
+ 9500 uv=-3968:ux=64:uy=30:uc=-8192:poke259,195
+ 9510 for x=0to7:read u:poke 224+x,u:next:poke260,224:poke261,0
+      rem xor a:call e018:ld ($00F0),a:ret
+ 9520 data175,205,24,224,50,240,0,201
+ 9540 return
+      rem u=getkey()  (ret if null)
+ 9560 u=usr(0):u=peek(240):return
+      rem u=getkey()
+ 9570 u=usr(0):u=peek(240):if u=0 then 9570
+ 9572 u$=chr$(u):return
+      rem get "special" poke-char(u),printable(u1) (typical asc "%*OHDSC#_^)(+-!") 
+ 9580 u=asc(mid$("%*OHDSC#_^)(+-!",u,1)):u1=u:return 
+      rem asc to peek/poke code
+ 9590 return
+      rem u=random()  0..1
+ 9600 u=rnd(1):return
+      rem poke output (u$) at vdu(ui,uj)
+ 9610 ui=uj*ux+uv+ui-1:for u=1tolen(u$)
+ 9615 poke ui+u,asc(mid$(u$,u,1)):next:return
+      rem convert cga-type rgbi (0-15 bits:irgb) to local color poke val.
+ 9630 return
+      rem set ink for print
+ 9640 return
+      rem set print cursor pos(ui,uj) (1..n)
+ 9650 return
+      rem get print cursor pos(ui,uj)
+ 9660 return
+      rem cls
+ 9670 print chr$(12);:return
+      rem set screen colour (u)
+ 9680 return
+      rem fast fill (u3..u4 step u5) with u1
+ 9690 for u=uv+u3 to uv+u4 step u5:poke u,u1:next:return
+      rem u2=colorPeek(u)
+ 9700 return
+      rem time in secs (uf=float var)
+ 9710 return
+
+rem -----1---------2---------3---------4---------5---------6---------7---------8
+
+      rem dragon32 version
+  2 goto 100
+    rem color(u)=u2:screen(u)=u1
+  3 rem
+    rem screenPoke(u,u1)
+  4 poke uv+u,u1:return
+    rem screenDoke(u,u1,u2)
+  6 poke uv+u,u1:poke uv+u+1,u2:return
+    rem u1=screenPeek(u)
+  8 u1=peek(uv+u):return
+      rem initialise library      
+ 9500 uv=1024:ux=32:uy=16:return
+      rem u=getkey()  (ret if null)
+ 9560 u=asc(inkey$+chr$(0)):return
+      rem u=getkey()
+ 9570 u$=inkey$:if u$="" then 9570
+ 9572 u=asc(u$):return
+      rem get "special" poke-char(u),printable(u1) (typical asc "%*OHDSC#_^)(+-!") 
+ 9580 u=asc(mid$("%*OHDSC#_^)(+-!",u,1)):u1=u:return 
+      rem asc to peek/poke code
+ 9590 u=(u and 63)+64:return
+       rem u=random()  0..1
+ 9600 u=rnd(4096)/4096:return
+      rem poke output (u$) at vdu(ui,uj)
+ 9610 ui=uj*ux+uv+ui-1:for u=1tolen(u$)
+ 9615 poke ui+u,asc(mid$(u$,u,1))and63:next:return
+      rem convert cga-type rgbi (0-15 bits:irgb) to local color poke val.
+ 9630 return
+      rem set ink for print
+ 9640 return
+      rem set print cursor pos(ui,uj) (1..n)
+ 9650 return
+      rem get print cursor pos(ui,uj)
+ 9660 return
+      rem cls
+ 9670 cls:return
+      rem set screen colour (u)
+ 9680 return
+      rem fast fill (u3..u4 step u5) with u1
+ 9690 for u=uv+u3 to uv+u4 step u5:poke u,u1:next:return
+      rem u2=colorPeek(u)
+ 9700 return
+      rem time in secs (uf=float var)
+ 9710 return
+
+rem -----1---------2---------3---------4---------5---------6---------7---------8
+
+    rem bbc version using print.. (b/w 40x24 text only)
+  2 dim u%(960):goto 100
+    rem color(u)=u2:screen(u)=u1
+  3 rem
+    rem screenPoke(u,u1)
+  4 u%(u)=u1:vdu 31,u mod ux,u div ux,u1:return
+    rem screenDoke(u,u1,u2)
+  6 u%(u)=u1:vdu 31,u mod ux,u div ux,u1,u2:return
+    rem u1=screenPeek(u)
+  8 u1=u%(u):return
+      rem initialise library      
+ 9500 mode 7:u=0:ux=40:uy=24
+ 9510 vdu 23,1,0,0,0,0,0,0,0,0:goto 9670
+      rem u=getkey()  (ret if null)
+ 9560 u=asc(inkey$(0)+chr$(0)):return
+      rem u=getkey()
+ 9570 u$=inkey$(0):if u$="" then 9570
+ 9572 u=asc(u$):return
+      rem get "special" poke-char(u),printable(u1) (typical asc "%*OHDSC#_^)(+-!") 
+ 9580 u=asc(mid$("%*OHDSC#_^)(+-!",u,1)):u1=u:return 
+      rem asc to peek/poke code
+ 9590 return
+       rem u=random()  0..1
+ 9600 u=rnd(1):return
+      rem poke output (u$) at vdu(ui,uj)
+ 9610 print tab(ui,uj);u$;
+      rem convert cga-type rgbi (0-15 bits:irgb) to local color poke val.
+ 9630 return
+      rem set ink for print
+ 9640 return
+      rem set print cursor pos(ui,uj) (1..n)
+ 9650 print tab(ui,uj);:return
+      rem get print cursor pos(ui,uj)
+ 9660 ui=pos:uj=vpos:return
+      rem cls
+ 9670 u9%=32:for u=0 to 959:u%(u)=u9%:next:cls:return
+      rem set screen colour (u) (rem vdu 17,u)
+ 9680 return
+      rem fast fill (u3..u4 step u5) with u1
+ 9690 for u=u3 to u4 step u5:gosub 4:next:return
+      rem u2=colorPeek(u)
+ 9700 return
+      rem time in secs (uf=float var)
+ 9710 uf=time/100:return
+
+rem -----1---------2---------3---------4---------5---------6---------7---------8
+
+    rem spectrum version using print.. (32x24)
+  2 dim u(769) : go to 100
+    rem color(u)=u2:screen(u)=u1
+  3 rem
+    rem screenPoke(u,u1)
+  4 let u(u+1)=u1:let u8=int(u/ux):print at u8,u-u8*ux;chr$(u1);:return
+    rem screenDoke(u,u1,u2)
+  6 gosub 4:print chr$(u2);
+    rem u1=screenPeek(u)
+  8 let u1=u(u+1):return
+      rem initialise library      
+ 9500 let u=0:let ux=32:let uy=24
+ 9510 go to 9670
+      rem u=getkey()  (ret if null)
+ 9560 let u=asc(inkey$+chr$(0)):return
+      rem u=getkey()
+ 9570 let u$=inkey$:if u$="" then go to 9570
+ 9572 let u=asc(u$):return
+      rem get "special" poke-char(u),printable(u1) (typical asc "%*OHDSC#_^)(+-!") 
+ 9580 let u=asc("%*OHDSC#_^)(+-!" (u to u)):let u1=u:return 
+      rem asc to peek/poke code
+ 9590 return
+       rem u=random()  0..1
+ 9600 let u=rnd:return
+      rem poke output (u$) at vdu(ui,uj)
+ 9610 print at uj,ui;u$;
+      rem convert cga-type rgbi (0-15 bits:irgb) to local color poke val.
+ 9630 return
+      rem set ink for print
+ 9640 return
+      rem set print cursor pos(ui,uj) (1..n)
+ 9650 print at uj,ui;:return
+      rem get print cursor pos(ui,uj)
+ 9660 return
+      rem cls
+ 9670 let u9=32:for u=1 to 768:let u(u)=u9:next u:cls:return
+      rem set screen colour (u) (rem vdu 17,u)
+ 9680 return
+      rem fast fill (u3..u4 step u5) with u1
+ 9690 for u=u3 to u4 step u5:go sub 4:next u:return
+      rem u2=colorPeek(u)
+ 9700 return
+      rem time in secs (uf=float var)
+ 9710 return
+
+rem -----1---------2---------3---------4---------5---------6---------7---------8
+
+    rem cpc version using print.. (40x24 text only)
+  2 dim u%(1000):goto 100
+    rem color(u)=u2:screen(u)=u1
+  3 pen u2
+    rem screenPoke(u,u1)
+  4 u%(u)=u1:locate 1+(u mod ux),1+int (u/ux):print chr$(u1);:return
+    rem screenDoke(u,u1,u2)
+    rem u1=screenPeek(u)
+  8 u1=u%(u):return
+      rem initialise library (ink:blk, blu, grn, wht)
+ 9500 mode 1:u=0:ux=40:uy=24:ink 0,0:ink 1,5:ink 2,9:ink 3,26
+ 9510 ut$=chr$(207)+chr$(231)+chr$(79)+chr$(228)+chr$(227)+chr$(226)+chr$(229)+chr$(143)
+ 9512 ut$=ut$+chr$(140)+chr$(131)+chr$(133)+chr$(138)+chr$(159)+chr$(154)+chr$(149)
+ 9530 goto 9670
+      rem u=getkey()  (ret if null)
+ 9560 u=asc(inkey$+chr$(0)):return
+      rem u=getkey()
+ 9570 u$=inkey$:if u$="" then 9570
+ 9572 u=asc(u$):return
+      rem get "special" poke-char(u),printable(u1) (typical asc "%*OHDSC#_^)(+-!") 
+ 9580 u=asc(mid$(ut$,u,1)):u1=u:return 
+      rem u=asc(mid$("%*OHDSC#_^)(+-!",u,1)):u1=u:return 
+      rem asc to peek/poke code
+ 9590 return
+       rem u=random()  0..1
+ 9600 u=rnd(1):return
+      rem poke output (u$) at vdu(ui,uj)
+ 9610 locate ui+1,uj+1:print u$;
+      rem convert cga-type rgbi (0-15 bits:irgb) to local color palette index.
+ 9630 u=asc(mid$("01233123",(u and 7)+1,1))-48:return
+      rem set ink for print
+ 9640 pen u:return
+      rem set print cursor pos(ui,uj) (1..n)
+ 9650 locate ui,uj:return
+      rem get print cursor pos(ui,uj)
+ 9660 return
+      rem cls
+ 9670 u9%=32:for u=0 to 959:u%(u)=u9%:next:cls:return
+      rem set screen colour (u) 
+ 9680 paper u:border u:return
+      rem fast fill (u3..u4 step u5) with u1 (col u2)
+ 9690 if u2 then pen u2
+ 9695 for u=u3 to u4 step u5:gosub 4:next:return
+      rem u2=colorPeek(u)
+ 9700 return
+      rem time in secs (uf=float var)
+ 9710 uf=time/256:return
+
+rem -----1---------2---------3---------4---------5---------6---------7---------8
+
+    rem msx version using print.. (b/w 40x24 text only)
+  2 dim u%(1000):goto 100
+    rem color(u)=u2:screen(u)=u1
+  3 rem
+    rem screenPoke(u,u1)
+  4 u%(u)=u1:locate (u mod ux),int (u/ux):print chr$(u1);:return
+    rem screenDoke(u,u1,u2)
+    rem u1=screenPeek(u)
+  8 u1=u%(u):return
+      rem initialise library (ink:blk, blu, grn, wht)
+ 9500 screen 1:u=0:ux=30:uy=23
+ 9510 ut$="%"+chr$(133)+chr$(132)+chr$(129)+chr$(131)+chr$(128)+chr$(130)+"#_^)(+-!"
+ 9530 goto 9670
+      rem u=getkey()  (ret if null)
+ 9560 u=asc(inkey$+chr$(0)):return
+      rem u=getkey()
+ 9570 u$=inkey$:if u$="" then 9570
+ 9572 u=asc(u$):return
+      rem get "special" poke-char(u),printable(u1) (typical asc "%*OHDSC#_^)(+-!") 
+ 9580 u=asc(mid$(ut$,u,1)):u1=u:return 
+      rem u=asc(mid$("%*OHDSC#_^)(+-!",u,1)):u1=u:return 
+      rem asc to peek/poke code
+ 9590 return
+       rem u=random()  0..1
+ 9600 u=rnd(1):return
+      rem poke output (u$) at vdu(ui,uj)
+ 9610 locate ui,uj:print u$;
+      rem convert cga-type rgbi (0-15 bits:irgb) to local color palette index.
+ 9630 return
+      rem set ink for print
+ 9640 return
+      rem set print cursor pos(ui,uj) (1..n)
+ 9650 locate ui-1,uj-1:return
+      rem get print cursor pos(ui,uj)
+ 9660 return
+      rem cls
+ 9670 u9%=32:for u=0 to 999:u%(u)=u9%:next:cls:return
+      rem set screen colour (u) 
+ 9680 color 2,1:return
+      rem fast fill (u3..u4 step u5) with u1 (col u2)
+ 9690 rem
+ 9695 for u=u3 to u4 step u5:gosub 4:next:return
+      rem u2=colorPeek(u)
+ 9700 return
+      rem time in secs (uf=float var)
+ 9710 uf=time/50:return
+
+rem -----1---------2---------3---------4---------5---------6---------7---------8
+
+    rem dos qbasic/basica 40 column version
+  2 goto 100
+    rem color(u)=u2:screen(u)=u1
+  3 poke uc+u+u+1,u2
+    rem screenPoke(u,u1)
+  4 if u<0 or u>1024 then stop
+  5 poke uv+u+u,u1:return
+    rem screenDoke(u,u1,u2)
+  6 poke uv+u+u,u1:poke uv+u+u+2,u2:return
+    rem u1=screenPeek(u)
+  8 if u<0 or u>1024 then stop
+  9 u1=peek(uv+u+u):return
+      rem initialise library      
+ 9500 uv=0:ux=40:uy=24
+ 9510 screen 0:width 40:randomize timer
+ 9520 def seg=&hb800
+ 9530 ut$=chr$(177)+chr$(2)+"O"+chr$(3)+chr$(4)+chr$(5)+chr$(6)+chr$(219)+chr$(220)+chr$(223)+chr$(221)+chr$(222)+"+-!"
+ 9540 return
+      rem u=getkey()  (ret if null)
+ 9560 u=asc(inkey$+chr$(0)):return
+      rem u=getkey()
+ 9570 u$=inkey$:if u$="" then 9570
+ 9572 u=asc(u$):return
+      rem get "special" poke-char(u),printable(u1) (typical asc "%*OHDSC#_^)(+-!") 
+ 9580 u=asc(mid$(ut$,u,1)):u1=u:return 
+      rem asc to peek/poke code
+ 9590 return
+       rem u=random()  0..1
+ 9600 u=rnd(1):return
+      rem poke output (u$) at vdu(ui,uj)
+ 9610 ui=uv+2*(uj*ux+ui):for u=1 to len(u$)
+ 9615 poke ui+u+u-2,asc(mid$(u$,u,1)):next:return
+      rem convert cga-type rgbi (0-15 bits:irgb) to local color poke val.
+ 9630 return
+      rem set ink for print
+ 9640 color u:return
+      rem set print cursor pos(ui,uj) (1..n)
+ 9650 locate uj,ui:return
+      rem get print cursor pos(ui,uj)
+ 9660 uj=csrlin:ui=pos(0):return
+      rem cls
+ 9670 cls:return
+      rem set screen colour (u)
+ 9680 color ,u and 7:return
+      rem fast fill (u3..u4 step u5) with u1
+ 9690 for u=uv+u3+u3 to uv+u4+u4 step u5+u5:poke u,u1:if u2 then poke u+1,u2
+ 9695 next:return
+      rem u2=colorPeek(u)
+ 9700 u2=peek(uv+u+u+1):return
+      rem time in secs (uf=float var)
+ 9710 uf=timer:return
+ 
+      
+rem -----1---------2---------3---------4---------5---------6---------7---------8
+
+rem ASCII                  ref: !"#$%&'()*+,-./0123456789:;<=>?@abcdefghijklmnopqrstuvwxyz{|}~`ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_
+
