@@ -64,11 +64,16 @@ PET computers can load them.
        
  3     Poke VDU pos U with char U1, Colour U2
        ie: u=4*ux:u1=65:u2=2:gosub 3:rem put 'A' at VDU(0,5),color 2.
+       
  4     Poke VDU pos U with char U1, (no colour set)
        ie: for u=0 to ux-1:u1=u+32:gosub 4:next:rem show chrset 
+       
  6     Doke VDU pos U with char U1,U2.
+ 
  8     U1 = VDUPEEK (U) 
+ 
  9500  Initialise UBL. Return VDU size UX,UY, use these in your code.   
+ 
  9560  Return getkey() in U  (ret zero if none)
  9570  Return getkey() in U  (wait for key)
  9580  Return special (PETSCII) code, poke-char(u),printable(u1) 
