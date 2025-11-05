@@ -1,7 +1,6 @@
    Universal Basic Library
    -----------------------
- 
-(C) A.Millett 2011-2025. Released as free software under GPL3.
+
 
 UBL is a simple Universal portable Basic library for a range of machines.
 
