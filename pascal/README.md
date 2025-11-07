@@ -4,7 +4,9 @@
 PDROP is the classic 4-in-a-line game implemented in standard Pascal.
 It is released as free software under GNU GPL-3 license.
 The files are:
+
   pdrop.pas    - Pascal version.
+
   
   pdrop.c      - C version for comparison.
   
@@ -20,6 +22,7 @@ The first player to get 4 pieces in a row wins the game.
 
 Commands:
   1-9     Drop your piece in that column.
+
   
   n       New game (nXY to set board size, ie n99 for a 9x9 board)
   
