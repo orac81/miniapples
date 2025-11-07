@@ -1,5 +1,5 @@
-###PDROP
-
+PDROP
+-----
  
 PDROP is the classic 4-in-a-line game implemented in standard Pascal.
 It is released as free software under GNU GPL-3 license.
