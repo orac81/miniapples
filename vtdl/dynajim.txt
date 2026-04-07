@@ -1,0 +1,57 @@
+  DYNAMITE JIM
+ --------------
+
+A game for the Commodore 64, Vic20, Plus4/C16, PET40/80 and ZX Spectrum.
+
+Guide Jim through the falling mines to collect Hearts.
+
+Controls:
+  To move, use the Keys around the 'S' key. (QWEADZXC)
+  Hit SPACE to detonate Dynamite.
+  Hit K to quit back to title screen.
+
+Mines fall every time you move. (6 on Level 1, 8 on Level 2, etc.)
+Collect 3 (out of 4) Hearts to proceed to the next level.
+Collect Freezers (F) to stop the mines falling for a few steps.
+Collect Dynamite to use later to blast a passage through the mines.
+
+HINTS: Remember, you can move diagonally between mines too.
+Collect as many sticks of Dynamite as you can on earlier levels,
+you will need them later. Try to plot a course at the start of a level that 
+uses the pattern of Freezers and Dynamites to collect the Hearts, it can make
+a big difference. 
+
+Collecting Freezers early is often helpful, even if you go off course a bit. 
+You only need 3 of the 4 Hearts, so choosing which one to leave behind 
+is important on later levels.
+
+Each Dynamite or Freezer you pick up scores (3x Level) points so they 
+also boost your final score.
+
+
+   COMPILING DYNAMITE JIM
+  ------------------------
+ 
+Dynamite Jim is a working example for the "Very Tiny Development Layer" (VTDL)
+portable library. This is a library specifically designed to be efficient
+with very small target systems, for example Dynamite Jim runs on an
+unexpanded 5K VIC20.
+It will eventually target many systems, from Vic20s up to PCs.
+
+The source code is included, "dynajim.c", and the VTDL library in 
+folder "tdl". Some compiler build scripts are also included.
+The 6502 targets can be build with the OSCAR64 C compiler, which
+is good for these small systems. For example to build for C64 and Vic20,
+install OSCAR64, then from the work dir type:
+
+ tdl/tdlmakosc.sh dynajim/dynajim -Os
+
+For more details, see "vtdl.txt" in the tdl folder.
+
+-----------------------------------------------------------------------------
+DYNAMITE JIM - (C) A.Millett 2011-2026.
+Released as free/open software under GNU GPL3 license. 
+  See: www.gnu.org/licenses/gpl-3.0.html
+For updates and more programs see:     www.github.com/orac81
+-----------------------------------------------------------------------------
+
