@@ -148,6 +148,3 @@ Released as free/open software under GNU GPL3 license.
 Library code itself licensed under Lesser GPL (LGPL)
 
 This program, and its source code, is provided for free "as-is". 
-The author take no responsibility or liability its subsequent use or mis-use.
-The user uses it entirely at his or her own risk. 
------------------------------------------------------------------------------
