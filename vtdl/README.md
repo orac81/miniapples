@@ -389,7 +389,8 @@ I intend to expand the range of supported Platforms and C Compilers
 in time, currently it is limited while I map out the API.
 
 
-------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
 Copyright A.Millett 2011-2026. (github.com/orac81)     
 The demos and games released as free/open software under GNU GPL3 license. 
   See: www.gnu.org/licenses/gpl-3.0.html
@@ -399,4 +400,5 @@ users to use the library within thier own code without restriction.
 
 This program, and its source code, is provided for free "as-is",
 no liability for its use or misuse is assumed by the author.
-------------------------------------------------------------------------------
+
+
