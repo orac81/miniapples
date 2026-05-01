@@ -7,7 +7,7 @@
 VTDL stands for "Very Tiny Development Layer", and is a simple portable 
 C89/C99 library designed to be efficient with very small target systems.
 
-[Skattabugz](https://github.com/orac81/miniapples/blob/main/vtdl/old/skattabugz-c64-scr1.png)
+[Skattabugz](https://raw.githubusercontent.com/orac81/miniapples/refs/heads/main/vtdl/old/skattabugz-c64-scr1.png)
 
 
 For example the included demo game Skattabugs is about 3K, runs on an 
@@ -318,6 +318,7 @@ I used Z88DK to build the Spectrum version, see "z88init.bat" & "z88tdl.bat"
 ------------------------------------------------------------------------------
 #This is the Build file for 6502/CBM targets with Oscar64. "tdlmakosc.sh"
 
+```
 #!/bin/sh
 # tdlmakosc.sh  - Build TDL app with OSCAR64 in Linux
 #  Syntax  ./tdlmakosc.sh progname [parms]   
@@ -335,6 +336,7 @@ oscar64 -D TDL_CBM -D TDL_PET=1 -D IS_OSCAR=1 -tm=pet  $2 $3 $4 $5 $1.c -o=$1-pe
 #oscar64 -D TDL_CBM -D TDL_PET=1 -D IS_OSCAR=1 -tm=pet32  $2 $3 $4 $5 $1.c -o=$1-pet32k.prg
 echo "Building PET80.."
 oscar64 -D TDL_CBM -D TDL_PET80=1 -D IS_OSCAR=1 -tm=pet32  $2 $3 $4 $5 $1.c -o=$1-pet80.prg
+```
 ------------------------------------------------------------------------------
 
 rem This is the build file for MSDOS .EXE, using Microsofts MSVC1.52 (tdlmakdos.bat)
