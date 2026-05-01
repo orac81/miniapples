@@ -14,6 +14,23 @@ Click on the txt file to read the description, click on the zip to download.
 
 <img src="https://raw.githubusercontent.com/orac81/miniapples/refs/heads/main/vtdl/old/skattabugz-c64-scr1.png">
 
+The bugz just wanna steal your Hearts!
+
+Controls:
+  SHIFT = Fire.
+  I,P = Move Left/Right.
+  X = Quit game.
+  or use Joystick if available.
+  (DOS: ESC quits to OS from title screen)
+
+Skattabugs is a fast paced shoot them up for the C64, C16, Vic20, ZX Spectrum,
+MSDOS (or Windows/Linux+DOSBOX).
+
+Eliminate the bugs before they capture all your hearts. 
+As each level progresses, the bugs become faster.
+If you win, you progress to the next level. 
+Avoid the bombs, if you get hit, you loose half of your hearts.
+Each bug scores 10 points on level 1, 20 on level two, 30 on 3, and so on.
 
 
 ## CASCADE (1982)
