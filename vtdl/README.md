@@ -310,7 +310,7 @@ NOTE - CURRENTLY THIS API IS LIABLE TO CHANGE, STILL UNDER CONSTRUCTION!
 
 --------------------------
 
-###COMPILING CODE, AND TOOLS:
+### COMPILING CODE, AND TOOLS:
 
 
 I used Z88DK to build the Spectrum version, see "z88init.bat" & "z88tdl.bat"
