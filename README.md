@@ -8,7 +8,7 @@ Click on the txt file to read the description, click on the zip to download.
 
 ## SKATTABUGZ
 
-[Download latest version](https://github.com/orac81/miniapples/raw/refs/heads/main/vtdl/vtdl-exe-latest.zip)
+[Download latest version](https://github.com/orac81/miniapples/raw/refs/heads/main/vtdl/skattabugz-latest.zip)
 
 
 
@@ -31,6 +31,9 @@ As each level progresses, the bugs become faster.
 If you win, you progress to the next level. 
 Avoid the bombs, if you get hit, you loose half of your hearts.
 Each bug scores 10 points on level 1, 20 on level two, 30 on 3, and so on.
+
+[Download VTDL Library with source](https://github.com/orac81/miniapples/raw/refs/heads/main/vtdl/vtdl-latest.zip)
+
 
 
 ## CASCADE (1982)
