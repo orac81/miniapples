@@ -1,5 +1,5 @@
 ###  VTDL, a library for small systems
- -----------------------------------
+
 
 (Please note, this is "Work in progress", not yet complete!)
 
@@ -54,6 +54,7 @@ You can set the macro define TDL_PATH with a new path for the library.
 
 Here is a simple example program to display the ASCII char set:
 
+'''
 ----------------------------------------------------------------------
 /* CHRSET.C  -  Simple VTDL demo, show ASCII char set */
 
@@ -84,11 +85,11 @@ int main ()
     return 0;
 }
 ----------------------------------------------------------------------
+'''
 
 
-/*========================================================================
-   API Library & Macros.
-==========================================================================*/
+### API Library & Macros.
+
 
 This is the API Library as it currently is. 
 Note that some functions maybe implemented as Macros with direct 
