@@ -16,12 +16,14 @@ Click on the txt file to read the description, click on the zip to download.
 
 The bugz just wanna steal your Hearts!
 
+```
 Controls:
   SHIFT = Fire.
   I,P = Move Left/Right.
   X = Quit game.
   or use Joystick if available.
   (DOS: ESC quits to OS from title screen)
+```
 
 Skattabugs is a fast paced shoot them up for the C64, C16, Vic20, ZX Spectrum,
 MSDOS (or Windows/Linux+DOSBOX).
