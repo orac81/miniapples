@@ -1,4 +1,4 @@
-#### VTDL, a library for small systems
+#### VTDL Library
 
 [Download latest version](https://github.com/orac81/miniapples/raw/refs/heads/main/vtdl/vtdl-latest.zip)
 
