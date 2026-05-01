@@ -35,6 +35,9 @@ Avoid the bombs, if you get hit, you loose half of your hearts.
 Each bug scores 10 points on level 1, 20 on level two, 30 on 3, and so on.
 
 Skattabugz is built with VTDL.
+
+https://github.com/orac81/miniapples/tree/main/vtdl
+
 [Download VTDL Library with source](https://github.com/orac81/miniapples/raw/refs/heads/main/vtdl/vtdl-latest.zip)
 
 
