@@ -1,11 +1,14 @@
 ####  VTDL, a library for small systems
 
-[Download](https://github.com/orac81/miniapples/raw/refs/heads/main/vtdl/vtdl-exe-latest.zip)
+[Download latest version](https://github.com/orac81/miniapples/raw/refs/heads/main/vtdl/vtdl-exe-latest.zip)
 
 (Please note, this is "Work in progress", not yet complete!)
 
 VTDL stands for "Very Tiny Development Layer", and is a simple portable 
 C89/C99 library designed to be efficient with very small target systems.
+
+[Skattabugz](https://github.com/orac81/miniapples/blob/main/vtdl/old/skattabugz-c64-scr1.png)
+
 
 For example the included demo game Skattabugs is about 3K, runs on an 
 unexpanded 5K VIC20, and yet features Hires colour graphics, sound, 
