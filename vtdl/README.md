@@ -340,7 +340,7 @@ oscar64 -D TDL_CBM -D TDL_PET80=1 -D IS_OSCAR=1 -tm=pet32  $2 $3 $4 $5 $1.c -o=$
 ------------------------------------------------------------------------------
 
 rem This is the build file for MSDOS .EXE, using Microsofts MSVC1.52 (tdlmakdos.bat)
-
+```
 echo off
 echo tdlmakdos msvc152-path dosprog [dosprog2.c ..] [flags..]
 echo   ie: tdlmakdos d:\msvc15 demo\hello
@@ -351,7 +351,7 @@ echo Building DOS_VGA version: %2.exe
 echo .
 echo Building DOS_BIOS version: %2-bios.exe
 %1\bin\cl.exe /D "TDL_DOS" /D "TDL_DOS_BIOS" /AM /nologo /Gs /G3 /FPi87 /FR /W3 /Oe /O1 /Ot /Ox /Fe%2-bios.exe /I%1\include %2.c %3 %4 %5 %6 %7 %8 %9  -link /NOI /STACK:5120  %1\lib\oldnames.lib %1\lib\mlibc7.lib 
-
+```
 ------------------------------------------------------------------------------
 
 The UDG mode for drawing graphics is based around 8x8 characters, 
@@ -363,6 +363,7 @@ Use any width over 32 pixels, any height, the tool will extract 8x8 chars
 top-left to bottom right automatically.
 
 To build this tool for Linux, type: cc bmp2c.c -o bmp2c -Os
+
 ------------------------------------------------------------------------------
 
 FURTHER NOTES:
