@@ -41,6 +41,26 @@ https://github.com/orac81/miniapples/tree/main/vtdl
 [Download VTDL Library with source](https://github.com/orac81/miniapples/raw/refs/heads/main/vtdl/vtdl-latest.zip)
 
 
+##WALL-RUN
+
+<img src="https://raw.githubusercontent.com/orac81/miniapples/refs/heads/main/vtdl/old/wall-c64-1.png">
+
+
+WALL-RUN is an action game for the Commodore 64, Vic20, C16/+4, PET, ZX Spectrum,
+MSDOS/VGA or SDL2 (Linux or Windows).
+
+[Download WallRun](https://github.com/orac81/miniapples/raw/refs/heads/main/vtdl/vtdl-latest.zip)
+
+The tap/prg files are in the folder "walleun"
+
+
+Steer your wall and try to outwit and trap your computer opponent. Use the Joystick, or the keys "QAOP" or "RCDF" to move Up/Down/Left/Right.
+Use SHIFT to fire, K/ESC to Quit, or H to Pause (SPACE restarts).
+Collect bonuses for points, (40xLevel). 
+Collect Ammo for the Gun, use SHIFT/FIRE to use a bullet, which will make
+a hole in the wall ahead. This is useful if you are trapped in an area.
+
+
 
 ## CASCADE (1982)
 
