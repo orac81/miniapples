@@ -46,17 +46,17 @@ https://github.com/orac81/miniapples/tree/main/vtdl
 <img src="https://raw.githubusercontent.com/orac81/miniapples/refs/heads/main/vtdl/old/wall-c64-1.png">
 
 
-WALL-RUN is an action game for the Commodore 64, Vic20, C16/+4, PET, ZX Spectrum,
+WALL-RUN is a compelling action game for the Commodore 64, Vic20, C16/+4, PET, ZX Spectrum,
 MSDOS/VGA or SDL2 (Linux or Windows).
 
 [Download WallRun](https://github.com/orac81/miniapples/raw/refs/heads/main/vtdl/vtdl-latest.zip)
 
 The tap/prg files are in the folder "wallrun"
-You can download the dos/sdl executabes here
+You can download the dos/sdl executabes here:
 [Download WallRun exe](https://github.com/orac81/miniapples/raw/refs/heads/main/vtdl/vtdl-exe-latest.zip)
 
-Collect bonuses for points, (40xLevel), Collect Ammo and then use SHIFT/FIRE to use a bullet, which will make a hole in the wall ahead. This is useful if you are trapped in an area.
-
+You can steer your wall up/down/left/right with the keyboard or joystick. The objective of the game is to trap your Computer opponent in a position where it has no moves left. As the levels progress the computer can "regenerate", so it gets progressively harder. 
+Collect bonuses for points, (40xLevel), Collect Ammo and then use SHIFT/FIRE to use a bullet, which will make a hole in the wall ahead. This is useful if you find are trapped in an area, or to maneuver to trap your opponent.
 
 
 ## CASCADE (1982)
