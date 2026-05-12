@@ -58,11 +58,13 @@ with the other folders (tdl, demo, skattabugz, etc) within that.
 
 Your code should have this near the start:
 
+...
 #ifdef TDL_PATH		/* User sets TDL_PATH */
  #include TDL_PATH
 #else
  #include "../tdl/tdl.c"
 #endif
+...
 
 You can set the macro define TDL_PATH with a new path for the library.
 
