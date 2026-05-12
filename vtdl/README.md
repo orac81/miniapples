@@ -2,6 +2,10 @@
 
 [Download latest version](https://github.com/orac81/miniapples/raw/refs/heads/main/vtdl/vtdl-latest.zip)
 
+
+[Download pre-built executables](https://github.com/orac81/miniapples/raw/refs/heads/main/vtdl/vtdl-exe-latest.zip)
+
+
 (Please note, this is "Work in progress", not yet complete!)
 
 VTDL stands for "Very Tiny Development Layer", and is a simple portable 
@@ -20,7 +24,7 @@ For example the included demo game Skattabugs is about 3K, runs on an
 unexpanded 5K VIC20, and yet features Hires colour graphics, sound, 
 smooth animation, and many features.
 
-It will eventually target many systems, from Vic20s up to full PCs.
+It can target many systems, from Vic20s up to full PCs.
 
 The source to VTDL is in the folder "tdl". 
 Some compiler build scripts are also included.
