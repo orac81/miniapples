@@ -21,6 +21,7 @@ There will be a VTDL front end in due course.
 
 ## COMMANDS
 
+```
   A#A#    Make move (ie E2E4)
   n[#,#]  New game (Optional setting x,y brd size) 
   d       Draw board
@@ -32,6 +33,7 @@ There will be a VTDL front end in due course.
   #..     Assort Benchmark/tests..
   /[A-Z]# Set/view params A..Z (/D#:set depth,/T#:sec/move,/R#:rand..)
   x       Exit
+```
 
 ## EXAMPLES
 
