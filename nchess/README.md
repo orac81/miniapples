@@ -39,11 +39,17 @@ There will be a VTDL front end in due course.
 
 You can set parameters with the "/" command, so
  /T2     sets 2 seconds per move
+ 
  /T0 <ENTER> /I2 <ENTER>   Sets fixed depth of 2 ply.
+ 
  n6,6    sets a 6x6 board
+ 
  n10,10  sets a 10x10 board
+ 
  n8,6    set an 8x6 board
+ 
  You can play a demo game just by hitting ENTER, ENTER, etc.
+ 
 
 The source code is included in the zip (nchess.c, nchess.h).
 The file "maknosc.sh" will build the CBM .prg files with Oscar64
