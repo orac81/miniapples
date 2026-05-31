@@ -1,6 +1,6 @@
 ### NCHESS
 
-Copyright  Adrian Millett 2008-2026. 
+
 Released as free software under GNU GPL3 license.
 
 NCHESS is a simple/small open source Chess Program written in C. (C89/99)
