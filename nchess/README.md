@@ -3,6 +3,9 @@
 
 Released as free software under GNU GPL3 license.
 
+[Download latest version](https://github.com/orac81/miniapples/raw/refs/heads/main/nchess/nchess-latest.zip)
+
+
 NCHESS is a simple/small open source Chess Program written in C. (C89/99)
 It can operate as an engine, or as a C console program.
 It can build on systems smaller than 64K, such as  the 
