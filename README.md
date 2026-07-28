@@ -1,4 +1,4 @@
-# MINIAPPLES
+i# MINIAPPLES
 
 Miniapples is a collection of very wide ranging interesting/useful open source mini-applets (games, utilities, applications) that are too small to justify their own project.
 
@@ -22,11 +22,9 @@ Controls:
   I,P = Move Left/Right.
   X = Quit game.
   or use Joystick if available.
-  (DOS: ESC quits to OS from title screen)
 ```
 
-Skattabugs is a fast paced shoot them up for the C64, C16, Vic20, ZX Spectrum,
-MSDOS (or Windows/Linux+DOSBOX).
+Skattabugs is a fast paced shoot them up for the Atari400/800, C64, C16, Vic20, C16, ZX Spectrum, MSDOS,  or Windows/Linux via SDL2.
 
 Eliminate the bugs before they capture all your hearts. 
 As each level progresses, the bugs become faster.
