@@ -1,4 +1,4 @@
-i# MINIAPPLES
+# MINIAPPLES
 
 Miniapples is a collection of very wide ranging interesting/useful open source mini-applets (games, utilities, applications) that are too small to justify their own project.
 
