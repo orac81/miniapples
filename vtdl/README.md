@@ -34,9 +34,13 @@ is good for these small systems.
 For example to build for C64 and Vic20, install OSCAR64, then from the
 base work dir type:
 
- tdl/tdlmakosc.sh skattabugz/skattabugz -Os
+ sh/tdlmakosc.sh skattabugz/skattabugz -Os
 
-There are some simple demos in the folder "demo".
+To build all of the samples:
+
+ sh/tdlmakoscall.sh
+ 
+There are some simple demos in the folder "demo", the build scripts are in the folder "sh". See file "tdl/vtdl.txt" for more up to date details 
 
 This library tries to give the Compiler the best chance possible to
 optimise the code. To do this, it is included as source within the program,
