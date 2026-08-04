@@ -11,7 +11,7 @@
 VTDL stands for "Very Tiny Development Layer", and is a simple portable 
 C89/C99 library designed to be efficient with very small target systems.
 
-VTDL can cross compile programs for the Commodore C64, Vic20, C16, Pet, ZX Spectrum, MSDOS-VGA, and Windows and Linux via SDL2.
+VTDL can cross compile programs for the Commodore C64, Vic20, C16, Pet, ZX Spectrum, Atari 400/800, MSDOS-VGA, and Windows and Linux via SDL2.
 
 This demo game Skattabugz is incuded:
 <img src="https://raw.githubusercontent.com/orac81/miniapples/refs/heads/main/vtdl/old/skattabugz-c64-scr1.png">
